@@ -38,7 +38,7 @@ public class Commands implements CommandExecutor{
 		{
 			if(args.length == 1)
 			{
-				if(args[0].equalsIgnoreCase("active"))
+				if(args[0].equalsIgnoreCase("toggle"))
 				{
 					SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
 					if(!player.isOp() && (plugin.isPermit() && !SleepingPlus.perm.has(player,"sleepingplus.com.active")))
