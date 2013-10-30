@@ -10,14 +10,21 @@ import net.como89.sleepingplus.task.TaskTimeNoSleep;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * @author como89
+ * @version 1.0.1
+ * #French - Cette classe est la classe principale du plugin. Elle gère la config, enregistre l'event pour le joueur et celui de la commande /sp.
+ * #English - This class is the main class of the plugin. It manages the config, records the event for the player and the command /sp.
+ */
 public class SleepingPlus extends JavaPlugin{
 
 	private PluginDescriptionFile pdFile;
-	private PluginDescriptionFile pdfFileVault;
+	private Plugin vault;
 	private Logger log;
 	
 	public static Permission perm;
@@ -36,7 +43,7 @@ public class SleepingPlus extends JavaPlugin{
 	private long timeExitServer;
 	
 	private long timeInBed;
-	private long nbRateWithDeath;
+	private int nbRateWithDeath;
 	
 //	public long getTimePluginStart()
 //	{
@@ -68,7 +75,7 @@ public class SleepingPlus extends JavaPlugin{
 		return timeExitServer;
 	}
 	
-	public long getNbRatWithDeath()
+	public int getNbRatWithDeath()
 	{
 		return nbRateWithDeath;
 	}
@@ -95,25 +102,37 @@ public class SleepingPlus extends JavaPlugin{
 		dossier.mkdirs();
 		log = getServer().getLogger();
 		pdFile = getDescription();
-		pdfFileVault = getServer().getPluginManager().getPlugin("Vault").getDescription();
+		vault = getServer().getPluginManager().getPlugin("Vault");
 		this.saveDefaultConfig();
 		loadConfig();
-		if(isVault())
+		if(isPermit())
 		{
-			if(isPermissions())
+			if(isVault())
 			{
-				new ManageData(this);
-				getServer().getPluginManager().registerEvents(new PlayerEvent(this), this);
-				getCommand("sp").setExecutor(new Commands(this));
-				Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskTimeNoSleep(), 20, 20);
-				logInfo("Link with vault succesfully.");
-				logInfo("Author : " + pdFile.getAuthors());
-				logInfo("Plugin enable");
+				if(isPermissions())
+				{
+					logInfo("Link with vault succesfully.");
+				}
+				else
+				{
+				logWarning("You need a permission plugin compatible with vault.");
+				this.setEnabled(false);
+				return;
+				}
+			}
+			else
+			{
+				logWarning("You need vault.");
+				this.setEnabled(false);
 				return;
 			}
 		}
-		logWarning("You need Vault with a permission plugin.");
-		this.setEnabled(false);
+		new ManageData(this);
+		getServer().getPluginManager().registerEvents(new PlayerEvent(this), this);
+		getCommand("sp").setExecutor(new Commands(this));
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskTimeNoSleep(), 20, 20);
+		logInfo("Author : " + pdFile.getAuthors());
+		logInfo("Plugin enable");
 	}
 	
 	private boolean isPermissions() {
@@ -132,14 +151,13 @@ public class SleepingPlus extends JavaPlugin{
 	
 	private boolean isVault()
 	{
-		return pdfFileVault != null;
+		return vault != null;
 	}
 	
 	private void logInfo(String message)
 	{
 		log.info("[" + pdFile.getName() + "] " + message);
 	}
-	
 	private void logWarning(String message)
 	{
 		log.warning("[" + pdFile.getName() + "] " + message);
@@ -156,6 +174,7 @@ public class SleepingPlus extends JavaPlugin{
 		timeExitServer = convertMinutesInSecond(minute);
 		timeInBed = this.getConfig().getInt("timeInBed");
 		nbRateWithDeath = this.getConfig().getInt("nbRateWithDeath");
+		ManageData.clearEffect();
 		loadEffect();
 	}
 	

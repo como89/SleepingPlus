@@ -12,6 +12,11 @@ import net.como89.sleepingplus.data.ManageData;
 import net.como89.sleepingplus.data.MsgLang;
 import net.como89.sleepingplus.data.SleepPlayer;
 
+/**
+ * @author como89
+ * #French - Cette classe gère lorsqu'un joueur entre dans un lit. Il vérifie s'il est toujours dans le lit avant d'enlever les effets de potions et de mettre à zéro son taux de fatigue.
+ * #English - This class handles when a player enters a bed. It checks if it is still in the bed before removing the effects of potions and to zero the rate of fatigue.
+ */
 public class TaskSleep extends BukkitRunnable {
 
 	private SleepPlayer sleepPlayer;

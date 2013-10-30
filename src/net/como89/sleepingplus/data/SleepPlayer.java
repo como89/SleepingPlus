@@ -2,6 +2,11 @@ package net.como89.sleepingplus.data;
 
 import org.bukkit.entity.Player;
 
+/**
+ * @author como89
+ * #French - Cette classe est la gestion des données concernant un joueur.
+ * #English - This class is the data management of the player.
+ */
 public class SleepPlayer {
 	
 	private Player player;

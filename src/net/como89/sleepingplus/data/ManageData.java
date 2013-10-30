@@ -9,6 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+/**
+ * @author como89
+ * #French - Cette classe manipule les données des deux ArrayList dans Data.Elle permet aussi d'effectuer certaine action comme l'application des effets de potions.
+ * #English - This class handles the data from both ArrayList Data. It also allows you to perform some action such as applying the effects of potions.
+ */
 public class ManageData {
 	
 	private static SleepingPlus plugin;
@@ -54,6 +59,16 @@ public class ManageData {
 		}
 	}
 	
+	public static void clearEffect()
+	{
+		Data.getListeEffect().clear();
+	}
+	
+	public static void addDramaticFatigue(SleepPlayer sleepPlayer)
+	{
+		sleepPlayer.ajustFatigueRate(sleepPlayer.getFatigueRate() + plugin.getNbRatWithDeath());
+	}
+	
 	public static SleepPlayer getSleepPlayer(Player player)
 	{
 		for(SleepPlayer sleepPlayer : Data.getListePlayer())
@@ -64,19 +79,6 @@ public class ManageData {
 			}
 		}
 		return null;
-	}
-	
-	private static int calculTauxFatigue(long timeNoSleep)
-	{
-		if(timeNoSleep != 0)
-		{
-		long timeSecond = timeNoSleep / 1000;
-		return (int) timeSecond / plugin.getTimeNoSleep();
-		}
-		else
-		{
-			return 0;
-		}
 	}
 	
 	public static ArrayList<Effect> getListEffect(int tauxFatigue)
@@ -128,6 +130,19 @@ public class ManageData {
 			{
 				player.addPotionEffect(potion);
 			}
+		}
+	}
+	
+	private static int calculTauxFatigue(long timeNoSleep)
+	{
+		if(timeNoSleep != 0)
+		{
+		long timeSecond = timeNoSleep / 1000;
+		return (int) timeSecond / plugin.getTimeNoSleep();
+		}
+		else
+		{
+			return 0;
 		}
 	}
 }

@@ -10,6 +10,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * @author como89
+ * #French - Cette classe est la gestion des commandes du plugin.
+ * #English - This class is the command management of the plugin.
+ */
 public class Commands implements CommandExecutor{
 
 	private SleepingPlus plugin;

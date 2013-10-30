@@ -11,6 +11,11 @@ import org.bukkit.entity.Player;
 
 import net.como89.sleepingplus.task.TaskTimeNoSleep;
 
+/**
+ * @author como89
+ * #French - Cette classe enregistre les données et utilise la classe Encrypter pour encrypter les données.
+ * #English - This class stores the data and uses the Encrypter class to encrypt the data.
+ */
 public class FileManager {
 
 	private SleepPlayer sleepPlayer;

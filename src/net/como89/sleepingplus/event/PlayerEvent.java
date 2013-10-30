@@ -13,11 +13,24 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
+
+/**
+ * @author como89
+ * #French - Cette classe permet d'écouter les différents évenements du joueur.
+ * #English - This class allows you to listen to the various events of the player.
+ * Events Listen :
+ * -PlayerJoinEvent
+ * -PlayerQuitEvent
+ * -PlayerBedEnterEvent
+ * -PlayerBedLeaveEvent
+ * -PlayerDeathEvent
+ */
 
 public class PlayerEvent implements Listener {
 
@@ -83,4 +96,11 @@ public class PlayerEvent implements Listener {
 		sleepPlayer.outBed();
 	}
 	
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent event)
+	{
+		Player player = event.getEntity();
+		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+		ManageData.addDramaticFatigue(sleepPlayer);
+	}
 }
