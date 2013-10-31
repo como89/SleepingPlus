@@ -41,7 +41,7 @@ public class Commands implements CommandExecutor{
 				if(args[0].equalsIgnoreCase("toggle"))
 				{
 					SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
-					if(!player.isOp() && (plugin.isPermit() && !SleepingPlus.perm.has(player,"sleepingplus.com.active")))
+					if(!player.isOp() && (plugin.isPermit() && !SleepingPlus.perm.has(player,"sleepingplus.com.toggle")))
 					{
 						player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2, SleepingPlus.getLangage()));
 						return true;
