@@ -13,7 +13,7 @@ import net.como89.sleepingplus.task.TaskTimeNoSleep;
 
 /**
  * @author como89
- * #French - Cette classe enregistre les données et utilise la classe Encrypter pour encrypter les données.
+ * #French - Cette classe enregistre les donnï¿½es et utilise la classe Encrypter pour encrypter les donnï¿½es.
  * #English - This class stores the data and uses the Encrypter class to encrypt the data.
  */
 public class FileManager {
@@ -33,7 +33,7 @@ public class FileManager {
 	
 	public void saveData()
 	{
-		Encrypter enc = new Encrypter("testing89");
+		Encrypter enc = new Encrypter("clÃ© ici");
 		String donnees = "";
 			try {
 				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("plugins/SleepingPlus/DataPlayer/"+sleepPlayer.getPlayer().getName()+".dat")));
@@ -48,7 +48,7 @@ public class FileManager {
 	
 	public void loadData()
 	{
-		Encrypter enc = new Encrypter("testing89");
+		Encrypter enc = new Encrypter("clÃ© ici");
 		File file = new File("plugins/SleepingPlus/DataPlayer/"+player.getName()+".dat");
 		try
 		{
