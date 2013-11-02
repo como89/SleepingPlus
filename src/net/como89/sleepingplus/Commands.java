@@ -41,7 +41,7 @@ public class Commands implements CommandExecutor{
 				if(args[0].equalsIgnoreCase("toggle"))
 				{
 					SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
-					if(!player.isOp() && (plugin.isPermit() && !SleepingPlus.perm.has(player,"sleepingplus.com.toggle")))
+					if(plugin.isPermit() && (!player.isOp() && !SleepingPlus.perm.has(player,"sleepingplus.com.toggle")))
 					{
 						player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2, SleepingPlus.getLangage()));
 						return true;
@@ -58,7 +58,7 @@ public class Commands implements CommandExecutor{
 				}
 				if(args[0].equalsIgnoreCase("reload"))
 				{
-					if(!player.isOp() && (plugin.isPermit() && !SleepingPlus.perm.has(player,"sleepingplus.com.reload")))
+					if(plugin.isPermit() && (!player.isOp() && !SleepingPlus.perm.has(player,"sleepingplus.com.reload")))
 					{
 						player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2, SleepingPlus.getLangage()));
 						return true;

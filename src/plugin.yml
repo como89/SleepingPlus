@@ -6,4 +6,4 @@ depends: [Vault]
 commands:
     sp:
       description: Command to enable or disable the plugin effects on us. Command to reload the config.
-      usage: /<command> <toogle|reload>
+      usage: /<command> <toggle|reload>
