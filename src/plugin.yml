@@ -2,7 +2,8 @@ name: SleepingPlus
 main: net.como89.sleepingplus.SleepingPlus
 author: como89
 version: 1.1
-depends: [Vault] 
+depends: [Vault]
+loadbefore: [WorldEdit] 
 commands:
     sp:
       description: Command to enable or disable the plugin effects on us. Command to reload the config.

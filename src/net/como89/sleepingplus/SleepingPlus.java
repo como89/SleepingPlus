@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import net.como89.sleepingplus.data.Effect;
 import net.como89.sleepingplus.data.ManageData;
+import net.como89.sleepingplus.event.EntityEvent;
 import net.como89.sleepingplus.event.PlayerEvent;
 import net.como89.sleepingplus.task.TaskTimeNoSleep;
 import net.milkbowl.vault.permission.Permission;
@@ -17,7 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * @author como89
- * @version 1.0.1
+ * @version 1.1
  * #French - Cette classe est la classe principale du plugin. Elle gère la config, enregistre l'event pour le joueur et celui de la commande /sp.
  * #English - This class is the main class of the plugin. It manages the config, records the event for the player and the command /sp.
  */
@@ -38,6 +39,7 @@ public class SleepingPlus extends JavaPlugin{
 	private long delaisTime;
 	private boolean delais;
 	private boolean permissions;
+	private boolean useXpBar;
 	
 	private int timeNoSleep;
 	private long timeExitServer;
@@ -58,6 +60,11 @@ public class SleepingPlus extends JavaPlugin{
 	public boolean isDelais()
 	{
 		return delais;
+	}
+	
+	public boolean isXpBar()
+	{
+		return useXpBar;
 	}
 	
 	public long getTimeDelais()
@@ -129,6 +136,7 @@ public class SleepingPlus extends JavaPlugin{
 		}
 		new ManageData(this);
 		getServer().getPluginManager().registerEvents(new PlayerEvent(this), this);
+		getServer().getPluginManager().registerEvents(new EntityEvent(this), this);
 		getCommand("sp").setExecutor(new Commands(this));
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskTimeNoSleep(), 20, 20);
 		logInfo("Author : " + pdFile.getAuthors());
@@ -174,6 +182,7 @@ public class SleepingPlus extends JavaPlugin{
 		timeExitServer = convertMinutesInSecond(minute);
 		timeInBed = this.getConfig().getInt("timeInBed");
 		nbRateWithDeath = this.getConfig().getInt("nbRateWithDeath");
+		useXpBar = this.getConfig().getBoolean("useXpBar");
 		ManageData.clearEffect();
 		loadEffect();
 	}

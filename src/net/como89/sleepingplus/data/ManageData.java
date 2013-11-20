@@ -100,13 +100,17 @@ public class ManageData {
 		{
 		long diff = time - sleepPlayer.getLogTime();
 		sleepPlayer.ajustTimeNoSleep(diff);
-		sleepPlayer.ajustFatigueRate(calculTauxFatigue(sleepPlayer.getTimeNoSleep()));
+		sleepPlayer.ajustFatigueRate((int) calculTauxFatigue(sleepPlayer.getTimeNoSleep()));
 		}
 		else if(sleepPlayer != null)
 		{
 			sleepPlayer.ajustTimeNoSleep(0);
 			sleepPlayer.zeroFatigueRate();
 			sleepPlayer.logTimeNow();
+		}
+		if(plugin.isXpBar() && sleepPlayer != null)
+		{
+			sleepPlayer.getPlayer().setLevel(sleepPlayer.getFatigueRate());
 		}
 	}
 	
@@ -133,12 +137,12 @@ public class ManageData {
 		}
 	}
 	
-	private static int calculTauxFatigue(long timeNoSleep)
+	private static float calculTauxFatigue(long timeNoSleep)
 	{
 		if(timeNoSleep != 0)
 		{
 		long timeSecond = timeNoSleep / 1000;
-		return (int) timeSecond / plugin.getTimeNoSleep();
+		return timeSecond / plugin.getTimeNoSleep();
 		}
 		else
 		{

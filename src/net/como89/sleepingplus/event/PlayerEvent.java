@@ -8,14 +8,21 @@ import net.como89.sleepingplus.data.ManageData;
 import net.como89.sleepingplus.data.SleepPlayer;
 import net.como89.sleepingplus.task.TaskQuitPlayer;
 import net.como89.sleepingplus.task.TaskSleep;
+import net.minecraft.server.v1_6_R3.Packet17EntityLocationAction;
+import net.minecraft.server.v1_6_R3.Packet18ArmAnimation;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_6_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
@@ -30,6 +37,8 @@ import org.bukkit.potion.PotionEffect;
  * -PlayerBedEnterEvent
  * -PlayerBedLeaveEvent
  * -PlayerDeathEvent
+ * -PlayerInteractEvent
+ * -PrepareItemEnchantEvent
  */
 
 public class PlayerEvent implements Listener {
@@ -94,6 +103,10 @@ public class PlayerEvent implements Listener {
 		Player player = event.getPlayer();
 		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
 		sleepPlayer.outBed();
+		Packet18ArmAnimation pa = new Packet18ArmAnimation();
+		pa.a = player.getEntityId();
+		pa.b = 3;
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(pa);
 	}
 	
 	@EventHandler
@@ -102,5 +115,28 @@ public class PlayerEvent implements Listener {
 		Player player = event.getEntity();
 		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
 		ManageData.addDramaticFatigue(sleepPlayer);
+	}
+	
+	@EventHandler
+	public void onPlayerInteractEvent(PlayerInteractEvent event)
+	{
+		Player p = event.getPlayer();
+		if(event.getClickedBlock() != null)
+		{
+			if(event.getClickedBlock().getType() == Material.BED_BLOCK)
+			{
+				Location location = event.getClickedBlock().getLocation();
+				((CraftPlayer)p).getHandle().playerConnection.sendPacket(new Packet17EntityLocationAction(((CraftPlayer)p).getHandle(),0,location.getBlockX(),location.getBlockY(),location.getBlockZ()));
+				Bukkit.getPluginManager().callEvent(new PlayerBedEnterEvent(p,event.getClickedBlock()));
+			}
+		}
+	}
+	
+	public void onPlayerEnchantItem(PrepareItemEnchantEvent event)
+	{
+		if(plugin.isXpBar())
+		{
+			event.setCancelled(true);
+		}
 	}
 }
