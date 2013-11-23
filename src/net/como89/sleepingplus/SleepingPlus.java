@@ -137,7 +137,7 @@ public class SleepingPlus extends JavaPlugin{
 		new ManageData(this);
 		getServer().getPluginManager().registerEvents(new PlayerEvent(this), this);
 		getServer().getPluginManager().registerEvents(new EntityEvent(this), this);
-		getCommand("sp").setExecutor(new Commands(this));
+		getCommand("spp").setExecutor(new Commands(this));
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskTimeNoSleep(), 20, 20);
 		logInfo("Author : " + pdFile.getAuthors());
 		logInfo("Plugin enable");

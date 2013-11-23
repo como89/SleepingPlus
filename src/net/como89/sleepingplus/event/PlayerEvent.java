@@ -15,16 +15,24 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_6_R3.entity.CraftPlayer;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExpEvent;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.AnvilInventory;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 /**
@@ -39,6 +47,9 @@ import org.bukkit.potion.PotionEffect;
  * -PlayerDeathEvent
  * -PlayerInteractEvent
  * -PrepareItemEnchantEvent
+ * -BlockExpEvent
+ * -InventoryClickEvent
+ * -BlockBreakEvent
  */
 
 public class PlayerEvent implements Listener {
@@ -123,15 +134,80 @@ public class PlayerEvent implements Listener {
 		Player p = event.getPlayer();
 		if(event.getClickedBlock() != null)
 		{
-			if(event.getClickedBlock().getType() == Material.BED_BLOCK)
+				if(event.getClickedBlock().getType() == Material.BED_BLOCK)
+				{
+					Location location = event.getClickedBlock().getLocation();
+					((CraftPlayer)p).getHandle().playerConnection.sendPacket(new Packet17EntityLocationAction(((CraftPlayer)p).getHandle(),0,location.getBlockX(),location.getBlockY(),location.getBlockZ()));
+					Bukkit.getPluginManager().callEvent(new PlayerBedEnterEvent(p,event.getClickedBlock()));
+				}
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerInventoryClick(InventoryClickEvent event)
+	{
+		if(plugin.isXpBar())
+		{
+			/**
+			 * This part of code, is not by me.(como89)
+			 * Credit : Zelnehlun
+			 */
+			if(!event.isCancelled())
 			{
-				Location location = event.getClickedBlock().getLocation();
-				((CraftPlayer)p).getHandle().playerConnection.sendPacket(new Packet17EntityLocationAction(((CraftPlayer)p).getHandle(),0,location.getBlockX(),location.getBlockY(),location.getBlockZ()));
-				Bukkit.getPluginManager().callEvent(new PlayerBedEnterEvent(p,event.getClickedBlock()));
+				HumanEntity human = event.getWhoClicked();
+				if(human instanceof Player)
+				{
+					Inventory inv = event.getInventory();
+					if(inv instanceof AnvilInventory)
+					{
+						InventoryView view = event.getView();
+						int rawSlot = event.getRawSlot();
+						
+						if(rawSlot == view.convertSlot(rawSlot))
+						{
+							if(rawSlot == 2)
+							{
+								ItemStack item = event.getCurrentItem();
+								if(item != null)
+								{
+									event.setCancelled(true);
+								}
+							}
+						}
+					}
+				}
+			}
+			/**
+			 * END part of code
+			 */
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerBreakBlock(BlockBreakEvent event)
+	{
+		if(plugin.isXpBar())
+		{
+			if(event.getExpToDrop() != 0)
+			{
+				event.setExpToDrop(0);
 			}
 		}
 	}
 	
+	@EventHandler
+	public void onDropXpEvent(BlockExpEvent event)
+	{
+		if(plugin.isXpBar())
+		{
+			if(event.getExpToDrop() != 0)
+			{
+				event.setExpToDrop(0);
+			}
+		}
+	}
+	
+	@EventHandler
 	public void onPlayerEnchantItem(PrepareItemEnchantEvent event)
 	{
 		if(plugin.isXpBar())

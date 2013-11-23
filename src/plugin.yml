@@ -5,6 +5,6 @@ version: 1.1
 depends: [Vault]
 loadbefore: [WorldEdit] 
 commands:
-    sp:
+    spp:
       description: Command to enable or disable the plugin effects on us. Command to reload the config.
       usage: /<command> <toggle|reload>

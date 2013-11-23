@@ -34,7 +34,7 @@ public class Commands implements CommandExecutor{
 		
 		Player player = (Player) cmd;
 		
-		if(label.equalsIgnoreCase("sp"))
+		if(label.equalsIgnoreCase("spp"))
 		{
 			if(args.length == 1)
 			{
