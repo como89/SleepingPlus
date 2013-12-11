@@ -1,6 +1,6 @@
 SleepingPlus
 ============
-Version 1.1
+Version 1.2
 
 Code Source of SleepingPlus plugin.
 
