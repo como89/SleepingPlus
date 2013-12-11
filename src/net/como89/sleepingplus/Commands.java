@@ -4,6 +4,7 @@ import net.como89.sleepingplus.data.ManageData;
 import net.como89.sleepingplus.data.MsgLang;
 import net.como89.sleepingplus.data.SleepPlayer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -65,6 +66,33 @@ public class Commands implements CommandExecutor{
 					}
 					plugin.loadConfig();
 					player.sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(3, SleepingPlus.getLangage()));
+					return true;
+				}
+			}
+			if(args[0].equalsIgnoreCase("infoS"))
+			{
+				if(plugin.isPermit() && (!player.isOp() && !SleepingPlus.perm.has(player,"sleepingplus.com.infos")))
+				{
+					player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2, SleepingPlus.getLangage()));
+					return true;
+				}
+				if(args.length == 1)
+				{
+					SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+					if(sleepPlayer != null)
+					{
+						player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPoint(MsgLang.getMsg(5, SleepingPlus.getLangage()),sleepPlayer.getFatigueRate()));
+					}
+					return true;
+				}
+				if(args.length == 2)
+				{
+					Player p = Bukkit.getPlayer(args[1]);
+					SleepPlayer sleepPlayer = ManageData.getSleepPlayer(p);
+					if(sleepPlayer != null)
+					{
+						player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPlayer(MsgLang.convertMsgPoint(MsgLang.getMsg(6, SleepingPlus.getLangage()),sleepPlayer.getFatigueRate()),p));
+					}
 					return true;
 				}
 			}

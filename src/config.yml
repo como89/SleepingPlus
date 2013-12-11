@@ -1,33 +1,22 @@
 #Config SleepingPlus
-# French - Langue du plugin. (French ou English)
-# English - Language of the plugin. (French or English)
+# Language of the plugin. (French or English)
 language: English
-# French - Utilisez-vous les permissions du plugin?
-# English - Do you use the permissions of the plugin?
+# Do you use the permissions of the plugin?
 permissions: false
-# French - Les effets lorsque le joueur devient fatiguer.
-# French - Identifié par son nom (en anglais), pendant combien de temps en secondes, le taux de fatigue pour que l'effet s'active.
-# English - Effects when the player becomes tired.
-# English - Identified by name, for how long, in seconds, the rate of fatigue so that the effect is activated.
+# Effects when the player becomes tired.
+# Identified by name, for how long, in seconds, the rate of fatigue so that the effect is activated.
 potionsEffect: SLOW,10,30/SLOW_DIGGING,10,40/BLINDNESS,10,60
-# French - Heure à laquelle le plugin se déclanche. (Ne fonctionne pas pour l'instant)
-# English - Time when the plugin triggers. (Does not work for now)
+# Time when the plugin triggers. (Does not work for now, will work in version 1.3)
 hourActive: 16000
-# French - Heure à laquelle le plugin s'arrête. (Ne fonctionne pas pour l'instant)
-# English - Time when the plugin stops. (Does not work for now)
+# Time when the plugin stops. (Does not work for now, will work in version 1.3)
 hourDesactive: 1000
-# French -  Un délai pour indiquer le nombre de secondes sans dormir, le taux de fatigue augmente de 1 après ce délais.
-# English - A period to indicate the number of seconds without sleep, the fatigue rate increases by 1 after this time.
+# A period to indicate the number of seconds without sleep, the fatigue rate increases by 1 after this time.
 timeNoSleep: 20
-# French - Le nombre de minutes qu'il faut en étant déconnecté pour que la fatigue s'enlève.
-# English - The number of minutes it takes being offline for fatigue removed.
+# The number of minutes it takes being offline for fatigue removed.
 timeExitServer: 10
-# French - Nombre de secondes où l'on doit rester dans le lit.
-# English - Number of seconds where you must stay in bed.
+# Number of seconds where you must stay in bed.
 timeInBed: 15
-# French - Nombre de fatigue à laquelle il sera ajouté au taux de fatigue lors d'une mort.
-# English - Number of fatigue which will be added at the rate of fatigue in a death.
+# Number of fatigue which will be added at the rate of fatigue in a death.
 nbRateWithDeath: 10
-# French - Voulez-vous utilisez la barre d'xp pour montrer le nombre de fatigue?
-# English - Would you use the xp bar to show the number of fatigue?
+# Would you use the xp bar to show the number of fatigue?
 useXpBar: false
