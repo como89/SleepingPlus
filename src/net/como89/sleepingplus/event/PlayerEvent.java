@@ -8,13 +8,13 @@ import net.como89.sleepingplus.data.ManageData;
 import net.como89.sleepingplus.data.SleepPlayer;
 import net.como89.sleepingplus.task.TaskQuitPlayer;
 import net.como89.sleepingplus.task.TaskSleep;
-import net.minecraft.server.v1_6_R3.Packet17EntityLocationAction;
-import net.minecraft.server.v1_6_R3.Packet18ArmAnimation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutAnimation;
+import net.minecraft.server.v1_7_R1.PacketPlayOutBed;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_6_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -114,9 +114,7 @@ public class PlayerEvent implements Listener {
 		Player player = event.getPlayer();
 		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
 		sleepPlayer.outBed();
-		Packet18ArmAnimation pa = new Packet18ArmAnimation();
-		pa.a = player.getEntityId();
-		pa.b = 3;
+		PacketPlayOutAnimation pa = new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(),2);
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(pa);
 	}
 	
@@ -137,7 +135,7 @@ public class PlayerEvent implements Listener {
 				if(event.getClickedBlock().getType() == Material.BED_BLOCK)
 				{
 					Location location = event.getClickedBlock().getLocation();
-					((CraftPlayer)p).getHandle().playerConnection.sendPacket(new Packet17EntityLocationAction(((CraftPlayer)p).getHandle(),0,location.getBlockX(),location.getBlockY(),location.getBlockZ()));
+					((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutBed(((CraftPlayer)p).getHandle(),location.getBlockX(),location.getBlockY(),location.getBlockZ()));
 					Bukkit.getPluginManager().callEvent(new PlayerBedEnterEvent(p,event.getClickedBlock()));
 				}
 		}
