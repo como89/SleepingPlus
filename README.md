@@ -1,8 +1,8 @@
 SleepingPlus
 ============
-Version 1.2
+Version 1.2.1
 
-Work with craftBukkit 1.6.4 R-2.0
+Work with craftBukkit 1.7.2 R-0.1 Beta
 
 Code Source of SleepingPlus plugin.
 
