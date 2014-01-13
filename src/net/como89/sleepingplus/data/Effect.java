@@ -10,12 +10,14 @@ public class Effect {
 	private String nomEffet;
 	private int nbTemps;
 	private int nbFatigueRate;
+	private int levelEffect;
 	
-	public Effect(String nomEffet,int nbTemps,int nbFatigueRate)
+	public Effect(String nomEffet,int nbTemps,int nbFatigueRate,int levelEffect)
 	{
 		this.nomEffet = nomEffet;
 		this.nbTemps = nbTemps;
 		this.nbFatigueRate = nbFatigueRate;
+		this.levelEffect = levelEffect;
 	}
 	
 	public String getNom()
@@ -31,5 +33,10 @@ public class Effect {
 	public int getNbFatigueRate()
 	{
 		return nbFatigueRate;
+	}
+	
+	public int getLevelEffect()
+	{
+		return levelEffect;
 	}
 }

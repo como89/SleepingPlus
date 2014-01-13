@@ -88,6 +88,10 @@ public class PlayerEvent implements Listener {
 		{
 			sleepPlayer.logout();
 		}
+		if(!sleepPlayer.isActive() && plugin.isActiveFatigue())
+		{
+			sleepPlayer.activer();
+		}
 	}
 	
 	@EventHandler
@@ -114,8 +118,11 @@ public class PlayerEvent implements Listener {
 		Player player = event.getPlayer();
 		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
 		sleepPlayer.outBed();
+		if(plugin.isActiveBedAtDay())
+		{
 		PacketPlayOutAnimation pa = new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(),2);
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(pa);
+		}
 	}
 	
 	@EventHandler
@@ -134,9 +141,14 @@ public class PlayerEvent implements Listener {
 		{
 				if(event.getClickedBlock().getType() == Material.BED_BLOCK)
 				{
+					if(plugin.isActiveBedAtDay())
+					{
 					Location location = event.getClickedBlock().getLocation();
 					((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutBed(((CraftPlayer)p).getHandle(),location.getBlockX(),location.getBlockY(),location.getBlockZ()));
 					Bukkit.getPluginManager().callEvent(new PlayerBedEnterEvent(p,event.getClickedBlock()));
+					// bloc msg "You can sleep only at night"
+					event.setCancelled(true);
+					}
 				}
 		}
 	}

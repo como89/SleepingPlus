@@ -18,7 +18,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * @author como89
- * @version 1.1
  * #French - Cette classe est la classe principale du plugin. Elle gère la config, enregistre l'event pour le joueur et celui de la commande /sp.
  * #English - This class is the main class of the plugin. It manages the config, records the event for the player and the command /sp.
  */
@@ -40,6 +39,8 @@ public class SleepingPlus extends JavaPlugin{
 	private boolean delais;
 	private boolean permissions;
 	private boolean useXpBar;
+	private boolean activateFatigue;
+	private boolean activateBedAtDay;
 	
 	private int timeNoSleep;
 	private long timeExitServer;
@@ -56,6 +57,16 @@ public class SleepingPlus extends JavaPlugin{
 //	{
 //		return timePluginStop;
 //	}
+	
+	public boolean isActiveFatigue()
+	{
+		return activateFatigue;
+	}
+	
+	public boolean isActiveBedAtDay()
+	{
+		return activateBedAtDay;
+	}
 	
 	public boolean isDelais()
 	{
@@ -183,6 +194,8 @@ public class SleepingPlus extends JavaPlugin{
 		timeInBed = this.getConfig().getInt("timeInBed");
 		nbRateWithDeath = this.getConfig().getInt("nbRateWithDeath");
 		useXpBar = this.getConfig().getBoolean("useXpBar");
+		activateFatigue = this.getConfig().getBoolean("activateFatigueOnConnect");
+		activateBedAtDay = this.getConfig().getBoolean("activateBedAtDay");
 		ManageData.clearEffect();
 		loadEffect();
 	}
@@ -193,7 +206,7 @@ public class SleepingPlus extends JavaPlugin{
 		for(String effetString : tabEffet)
 		{
 			String [] lignes = effetString.split(",");
-			Effect effet = new Effect(lignes[0],Integer.parseInt(lignes[1]),Integer.parseInt(lignes[2]));
+			Effect effet = new Effect(lignes[0],Integer.parseInt(lignes[1]),Integer.parseInt(lignes[2]),Integer.parseInt(lignes[3]));
 			ManageData.addEffect(effet);
 		}
 	}

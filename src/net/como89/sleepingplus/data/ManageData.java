@@ -121,7 +121,7 @@ public class ManageData {
 		PotionEffect potion = null;
 		for(Effect effect : listEffect)
 		{
-			potion = new PotionEffect(PotionEffectType.getByName(effect.getNom()),effect.getNbTemps() * 20,2);
+			potion = new PotionEffect(PotionEffectType.getByName(effect.getNom()),effect.getNbTemps() * 20,effect.getLevelEffect());
 			for(PotionEffect potions : listeEffetOnPlayer)
 			{
 				if(potion.getType() == potions.getType())

@@ -5,11 +5,7 @@ language: English
 permissions: false
 # Effects when the player becomes tired.
 # Identified by name, for how long, in seconds, the rate of fatigue so that the effect is activated.
-potionsEffect: SLOW,10,30/SLOW_DIGGING,10,40/BLINDNESS,10,60
-# Time when the plugin triggers. (Does not work for now, will work in version 1.3)
-hourActive: 16000
-# Time when the plugin stops. (Does not work for now, will work in version 1.3)
-hourDesactive: 1000
+potionsEffect: SLOW,10,30,2/SLOW_DIGGING,10,40,2/BLINDNESS,10,60,3
 # A period to indicate the number of seconds without sleep, the fatigue rate increases by 1 after this time.
 timeNoSleep: 20
 # The number of minutes it takes being offline for fatigue removed.
@@ -20,3 +16,7 @@ timeInBed: 15
 nbRateWithDeath: 10
 # Would you use the xp bar to show the number of fatigue?
 useXpBar: false
+# Would you want to use the automatic fatigue when you connect on the server?
+activateFatigueOnConnect: false
+# Activate this and you can go to bed at day
+activateBedAtDay: true
