@@ -6,7 +6,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.como89.sleepingplus.SleepingPlus;
 import net.como89.sleepingplus.data.FileManager;
 import net.como89.sleepingplus.data.ManageData;
 import net.como89.sleepingplus.data.MsgLang;
@@ -37,7 +36,7 @@ public class TaskSleep extends BukkitRunnable {
 			}
 			ManageData.actualiseTime(sleepPlayer, 0);
 			new FileManager(sleepPlayer).saveData();
-			sleepPlayer.getPlayer().sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(4, SleepingPlus.getLangage()));
+			sleepPlayer.getPlayer().sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(4));
 		}
 	}
 

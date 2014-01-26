@@ -44,28 +44,28 @@ public class Commands implements CommandExecutor{
 					SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
 					if(plugin.isPermit() && (!player.isOp() && !SleepingPlus.perm.has(player,"sleepingplus.com.toggle")))
 					{
-						player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2, SleepingPlus.getLangage()));
+						player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2));
 						return true;
 					}
 					if(!sleepPlayer.isActive())
 					{
 					sleepPlayer.activer();
-					player.sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(0, SleepingPlus.getLangage()));
+					player.sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(0));
 					return true;
 					}
 					sleepPlayer.desactiver();
-					player.sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(1, SleepingPlus.getLangage()));
+					player.sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(1));
 					return true;
 				}
 				if(args[0].equalsIgnoreCase("reload"))
 				{
 					if(plugin.isPermit() && (!player.isOp() && !SleepingPlus.perm.has(player,"sleepingplus.com.reload")))
 					{
-						player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2, SleepingPlus.getLangage()));
+						player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2));
 						return true;
 					}
 					plugin.loadConfig();
-					player.sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(3, SleepingPlus.getLangage()));
+					player.sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(3));
 					return true;
 				}
 			}
@@ -73,7 +73,7 @@ public class Commands implements CommandExecutor{
 			{
 				if(plugin.isPermit() && (!player.isOp() && !SleepingPlus.perm.has(player,"sleepingplus.com.infos")))
 				{
-					player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2, SleepingPlus.getLangage()));
+					player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2));
 					return true;
 				}
 				if(args.length == 1)
@@ -81,7 +81,7 @@ public class Commands implements CommandExecutor{
 					SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
 					if(sleepPlayer != null)
 					{
-						player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPoint(MsgLang.getMsg(5, SleepingPlus.getLangage()),sleepPlayer.getFatigueRate()));
+						player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPoint(MsgLang.getMsg(5),sleepPlayer.getFatigueRate()));
 					}
 					return true;
 				}
@@ -91,7 +91,7 @@ public class Commands implements CommandExecutor{
 					SleepPlayer sleepPlayer = ManageData.getSleepPlayer(p);
 					if(sleepPlayer != null)
 					{
-						player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPlayer(MsgLang.convertMsgPoint(MsgLang.getMsg(6, SleepingPlus.getLangage()),sleepPlayer.getFatigueRate()),p));
+						player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPlayer(MsgLang.convertMsgPoint(MsgLang.getMsg(6),sleepPlayer.getFatigueRate()),p));
 					}
 					return true;
 				}

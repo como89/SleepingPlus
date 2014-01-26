@@ -1,0 +1,16 @@
+english:
+    ACTIVATE_PLUGIN : You activate the plugin for you.
+    CONFIG_RELOAD : The config is now reload.
+    DISABLED_PLUGIN : You have disabled the plugin for you.
+    LESS_TIRED : You're less tired now.
+    NO_PERMISSION : You do not have permission for this command.
+    NUMBER_FATIGUE_POINT_OTHER : The number of point of fatigue for <player> is <ptFatigue> Points.
+    NUMBER_FATIGUE_POINT_YOU : Your number of fatigue point is <ptFatigue> Points.
+french:
+    ACTIVATE_PLUGIN : Vous avez activer le plugin pour vous.
+    CONFIG_RELOAD : La config est maintenant reload.
+    DISABLED_PLUGIN : Vous avez désactiver le plugin pour vous.
+    LESS_TIRED : Vous êtes moins fatiguer maintenant.
+    NO_PERMISSION : Vous n'avez pas la permission pour cette commande.
+    NUMBER_FATIGUE_POINT_OTHER : Le nombre de point de fatigue de <player> est à <ptFatigue> Points.
+    NUMBER_FATIGUE_POINT_YOU : Votre nombre de point de fatigue est à  <ptFatigue> Points.

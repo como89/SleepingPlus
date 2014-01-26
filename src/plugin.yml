@@ -1,7 +1,7 @@
 name: SleepingPlus
 main: net.como89.sleepingplus.SleepingPlus
 author: como89
-version: 1.3
+version: 1.3.1
 depends: [Vault]
 loadbefore: [WorldEdit] 
 commands:

@@ -4,27 +4,19 @@ import org.bukkit.entity.Player;
 
 /**
  * @author como89
- * #French - Cette classe est une classe pour tous les messages du plugin. En francais et en anglais.
- * #English - This is a class for all posts of the plugin. In French and English.
+ * #French - Cette classe est une classe pour tous les messages du plugin.
+ * #English - This is a class for all posts of the plugin.
  */
 public class MsgLang {
 	
-	private static String [] french = {"Vous avez activer le plugin pour vous.","Vous avez désactiver le plugin pour vous.",
-		"Vous n'avez pas la permission pour cette commande.","La config est maintenant reload.","Vous n'êtes moins fatigué maintenant.","Votre nombre de point de fatigue est à  <ptFatigue> Points.","Le nombre de point de fatigue de <player> est à <ptFatigue> Points."};
-	private static String [] english = {"You activate the plugin for you.","You have disabled the plugin for you.",
-		"You do not have permission for this command.","The config is now reload.","You're less tired now.","Your number of fatigue point is <ptFatigue> Points.","The number of point of fatigue for <player> is <ptFatigue> Points."};
+	private static String [] msg;
 	
-	public static String getMsg(int index,String lang)
+	public static void initialiseMsg(String[] lignes){
+		msg = lignes;
+	}
+	public static String getMsg(int index)
 	{
-		if(lang.equals("French"))
-		{
-			return french[index];
-		}
-		if(lang.equals("English"))
-		{
-			return english[index];
-		}
-		return null;
+		return msg[index];
 	}
 	
 	public static String convertMsgPoint(String msg,int nbPoint)

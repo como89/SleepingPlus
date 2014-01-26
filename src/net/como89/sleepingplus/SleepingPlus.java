@@ -1,16 +1,21 @@
 package net.como89.sleepingplus;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Logger;
 
 import net.como89.sleepingplus.data.Effect;
 import net.como89.sleepingplus.data.ManageData;
+import net.como89.sleepingplus.data.MsgLang;
 import net.como89.sleepingplus.event.EntityEvent;
 import net.como89.sleepingplus.event.PlayerEvent;
 import net.como89.sleepingplus.task.TaskTimeNoSleep;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -24,6 +29,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SleepingPlus extends JavaPlugin{
 
 	private PluginDescriptionFile pdFile;
+	private FileConfiguration customMsg;
+	private File fileMsg;
 	private Plugin vault;
 	private Logger log;
 	
@@ -31,9 +38,6 @@ public class SleepingPlus extends JavaPlugin{
 	
 	private String listeEffet;
 	private static String language;
-	
-//	private long timePluginStart;
-//	private long timePluginStop;
 	
 	private long delaisTime;
 	private boolean delais;
@@ -47,16 +51,6 @@ public class SleepingPlus extends JavaPlugin{
 	
 	private long timeInBed;
 	private int nbRateWithDeath;
-	
-//	public long getTimePluginStart()
-//	{
-//		return timePluginStart;
-//	}
-//	
-//	public long getTimePluginStop()
-//	{
-//		return timePluginStop;
-//	}
 	
 	public boolean isActiveFatigue()
 	{
@@ -146,6 +140,8 @@ public class SleepingPlus extends JavaPlugin{
 			}
 		}
 		new ManageData(this);
+		String [] lignes = loadMsg();
+		MsgLang.initialiseMsg(lignes);
 		getServer().getPluginManager().registerEvents(new PlayerEvent(this), this);
 		getServer().getPluginManager().registerEvents(new EntityEvent(this), this);
 		getCommand("spp").setExecutor(new Commands(this));
@@ -154,6 +150,41 @@ public class SleepingPlus extends JavaPlugin{
 		logInfo("Plugin enable");
 	}
 	
+	private String[] loadMsg(){
+		if(fileMsg == null){
+			fileMsg = new File(getDataFolder(),"msg.yml");
+		}
+		customMsg = YamlConfiguration.loadConfiguration(fileMsg);
+		
+		InputStream defCustomMsg = this.getResource("msg.yml");
+		if(defCustomMsg != null){
+			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defCustomMsg);
+			customMsg.setDefaults(defConfig);
+		}
+		
+		 if (!fileMsg.exists()) {            
+	         this.saveResource("msg.yml", false);
+			 try {
+					customMsg.save(fileMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	     }
+		 
+		 String [] lignes = new String[7];
+		 String lang = language.toLowerCase();
+		 lignes[0] = customMsg.getString(lang+"ACTIVATE_PLUGIN");
+		 lignes[1] = customMsg.getString(lang+"DISABLED_PLUGIN");
+		 lignes[2] = customMsg.getString(lang+"NO_PERMISSION");
+		 lignes[3] = customMsg.getString(lang+"CONFIG_RELOAD");
+		 lignes[4] = customMsg.getString(lang+"LESS_TIRED");
+		 lignes[5] = customMsg.getString(lang+"NUMBER_FATIGUE_POINT_YOU");
+		 lignes[6] = customMsg.getString(lang+"NUMBER_FATIGUE_POINT_OTHER");
+		 
+		return lignes;
+	}
+	
+
 	private boolean isPermissions() {
 		RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
         if (permissionProvider != null) {
