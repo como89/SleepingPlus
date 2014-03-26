@@ -8,8 +8,13 @@ import java.util.logging.Logger;
 import net.como89.sleepingplus.data.Effect;
 import net.como89.sleepingplus.data.ManageData;
 import net.como89.sleepingplus.data.MsgLang;
+import net.como89.sleepingplus.event.ChairEvent;
 import net.como89.sleepingplus.event.EntityEvent;
 import net.como89.sleepingplus.event.PlayerEvent;
+import net.como89.sleepingplus.nms.M_1_5;
+import net.como89.sleepingplus.nms.M_1_6;
+import net.como89.sleepingplus.nms.M_1_7_R1;
+import net.como89.sleepingplus.nms.NMSCLASS;
 import net.como89.sleepingplus.task.TaskTimeNoSleep;
 import net.milkbowl.vault.permission.Permission;
 
@@ -50,6 +55,7 @@ public class SleepingPlus extends JavaPlugin{
 	private long timeExitServer;
 	
 	private long timeInBed;
+	private long timeOnChair;
 	private int nbRateWithDeath;
 	
 	public boolean isActiveFatigue()
@@ -97,6 +103,10 @@ public class SleepingPlus extends JavaPlugin{
 		return timeInBed;
 	}
 	
+	public long getTimeOnChair(){
+		return timeOnChair;
+	}
+	
 	public static String getLangage()
 	{
 		return language;
@@ -117,6 +127,12 @@ public class SleepingPlus extends JavaPlugin{
 		vault = getServer().getPluginManager().getPlugin("Vault");
 		this.saveDefaultConfig();
 		loadConfig();
+		NMSCLASS netminecraftclass = loadMinecraftClass();
+		if(netminecraftclass == null){
+			logWarning("This version of craftbukkit is not compatible with SleepingPlus!");
+			logWarning("You will not be able to use the bed at day option.");
+			activateBedAtDay = false;
+		}
 		if(isPermit())
 		{
 			if(isVault())
@@ -142,12 +158,31 @@ public class SleepingPlus extends JavaPlugin{
 		new ManageData(this);
 		String [] lignes = loadMsg();
 		MsgLang.initialiseMsg(lignes);
-		getServer().getPluginManager().registerEvents(new PlayerEvent(this), this);
+		getServer().getPluginManager().registerEvents(new PlayerEvent(this,netminecraftclass), this);
 		getServer().getPluginManager().registerEvents(new EntityEvent(this), this);
+		if(getServer().getPluginManager().getPlugin("Chairs") != null){
+		getServer().getPluginManager().registerEvents(new ChairEvent(this), this);
+		}
 		getCommand("spp").setExecutor(new Commands(this));
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskTimeNoSleep(), 20, 20);
 		logInfo("Author : " + pdFile.getAuthors());
 		logInfo("Plugin enable");
+	}
+	
+	private NMSCLASS loadMinecraftClass(){
+		String craftVersion = Bukkit.getVersion();
+		String[] craftVersionTab = craftVersion.split(":");
+		craftVersion = craftVersionTab[1];
+		if(craftVersion.contains("1.5.2")){
+			return new M_1_5();
+		}
+		if(craftVersion.contains("1.6.4")){
+			return new M_1_6();
+		}
+		if(craftVersion.contains("1.7.2")){
+			return new M_1_7_R1();
+		}
+		return null;
 	}
 	
 	private String[] loadMsg(){
@@ -223,6 +258,7 @@ public class SleepingPlus extends JavaPlugin{
 		int minute = this.getConfig().getInt("timeExitServer");
 		timeExitServer = convertMinutesInSecond(minute);
 		timeInBed = this.getConfig().getInt("timeInBed");
+		timeOnChair = this.getConfig().getInt("timeOnChair");
 		nbRateWithDeath = this.getConfig().getInt("nbRateWithDeath");
 		useXpBar = this.getConfig().getBoolean("useXpBar");
 		activateFatigue = this.getConfig().getBoolean("activateFatigueOnConnect");

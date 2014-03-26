@@ -6,15 +6,13 @@ import net.como89.sleepingplus.SleepingPlus;
 import net.como89.sleepingplus.data.FileManager;
 import net.como89.sleepingplus.data.ManageData;
 import net.como89.sleepingplus.data.SleepPlayer;
+import net.como89.sleepingplus.nms.NMSCLASS;
 import net.como89.sleepingplus.task.TaskQuitPlayer;
 import net.como89.sleepingplus.task.TaskSleep;
-import net.minecraft.server.v1_7_R1.PacketPlayOutAnimation;
-import net.minecraft.server.v1_7_R1.PacketPlayOutBed;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -55,10 +53,12 @@ import org.bukkit.potion.PotionEffect;
 public class PlayerEvent implements Listener {
 
 	private SleepingPlus plugin;
+	private NMSCLASS netminecraftclass;
 	
-	public PlayerEvent(SleepingPlus plugin)
+	public PlayerEvent(SleepingPlus plugin,NMSCLASS netminecraftclass)
 	{
 		this.plugin = plugin;
+		this.netminecraftclass = netminecraftclass;
 	}
 	
 	@EventHandler
@@ -120,8 +120,7 @@ public class PlayerEvent implements Listener {
 		sleepPlayer.outBed();
 		if(plugin.isActiveBedAtDay())
 		{
-		PacketPlayOutAnimation pa = new PacketPlayOutAnimation(((CraftPlayer) player).getHandle(),2);
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(pa);
+			netminecraftclass.outBed(player);
 		}
 	}
 	
@@ -143,8 +142,8 @@ public class PlayerEvent implements Listener {
 				{
 					if(plugin.isActiveBedAtDay())
 					{
-					Location location = event.getClickedBlock().getLocation();
-					((CraftPlayer)p).getHandle().playerConnection.sendPacket(new PacketPlayOutBed(((CraftPlayer)p).getHandle(),location.getBlockX(),location.getBlockY(),location.getBlockZ()));
+					Location loc = event.getClickedBlock().getLocation();
+					netminecraftclass.inBed(p, loc);
 					Bukkit.getPluginManager().callEvent(new PlayerBedEnterEvent(p,event.getClickedBlock()));
 					// bloc msg "You can sleep only at night"
 					event.setCancelled(true);

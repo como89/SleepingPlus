@@ -16,6 +16,7 @@ public class SleepPlayer {
 	private boolean inBed;
 	private boolean active;
 	private boolean login;
+	private boolean sitDown;
 	
 	public SleepPlayer(Player player)
 	{
@@ -25,6 +26,7 @@ public class SleepPlayer {
 		inBed = false;
 		active = false;
 		login = false;
+		sitDown = false;
 		fatigueRate = 0;
 	}
 	
@@ -36,6 +38,7 @@ public class SleepPlayer {
 		this.inBed = false;
 		this.active = active;
 		this.login = false;
+		this.sitDown = false;
 		this.fatigueRate = fatigueRate;
 	}
 	
@@ -102,6 +105,18 @@ public class SleepPlayer {
 	public boolean isInBed()
 	{
 		return inBed;
+	}
+	
+	public void sitOnChair(){
+		sitDown = true;
+	}
+	
+	public void unSit(){
+		sitDown = false;
+	}
+	
+	public boolean isSitOnChair(){
+		return sitDown;
 	}
 	
 	public long getLogTime()
