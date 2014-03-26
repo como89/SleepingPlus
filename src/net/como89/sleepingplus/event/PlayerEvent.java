@@ -118,7 +118,7 @@ public class PlayerEvent implements Listener {
 		Player player = event.getPlayer();
 		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
 		sleepPlayer.outBed();
-		if(plugin.isActiveBedAtDay())
+		if(plugin.isActiveBedAtDay() && netminecraftclass != null)
 		{
 			netminecraftclass.outBed(player);
 		}
@@ -140,7 +140,7 @@ public class PlayerEvent implements Listener {
 		{
 				if(event.getClickedBlock().getType() == Material.BED_BLOCK)
 				{
-					if(plugin.isActiveBedAtDay())
+					if(plugin.isActiveBedAtDay() && netminecraftclass != null)
 					{
 					Location loc = event.getClickedBlock().getLocation();
 					netminecraftclass.inBed(p, loc);

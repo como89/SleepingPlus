@@ -187,14 +187,13 @@ public class SleepingPlus extends JavaPlugin{
 	
 	private String[] loadMsg(){
 		if(fileMsg == null){
-			fileMsg = new File(getDataFolder(),"msg.yml");
+			fileMsg = new File("plugins/SleepingPlus/msg.yml");
 		}
 		customMsg = YamlConfiguration.loadConfiguration(fileMsg);
 		
 		InputStream defCustomMsg = this.getResource("msg.yml");
-		if(defCustomMsg != null){
-			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defCustomMsg);
-			customMsg.setDefaults(defConfig);
+		if(customMsg == null){
+			customMsg = YamlConfiguration.loadConfiguration(defCustomMsg);
 		}
 		
 		 if (!fileMsg.exists()) {            
@@ -208,13 +207,13 @@ public class SleepingPlus extends JavaPlugin{
 		 
 		 String [] lignes = new String[7];
 		 String lang = language.toLowerCase();
-		 lignes[0] = customMsg.getString(lang+"ACTIVATE_PLUGIN");
-		 lignes[1] = customMsg.getString(lang+"DISABLED_PLUGIN");
-		 lignes[2] = customMsg.getString(lang+"NO_PERMISSION");
-		 lignes[3] = customMsg.getString(lang+"CONFIG_RELOAD");
-		 lignes[4] = customMsg.getString(lang+"LESS_TIRED");
-		 lignes[5] = customMsg.getString(lang+"NUMBER_FATIGUE_POINT_YOU");
-		 lignes[6] = customMsg.getString(lang+"NUMBER_FATIGUE_POINT_OTHER");
+		 lignes[0] = customMsg.getString(lang+".ACTIVATE_PLUGIN");
+		 lignes[1] = customMsg.getString(lang+".DISABLED_PLUGIN");
+		 lignes[2] = customMsg.getString(lang+".NO_PERMISSION");
+		 lignes[3] = customMsg.getString(lang+".CONFIG_RELOAD");
+		 lignes[4] = customMsg.getString(lang+".LESS_TIRED");
+		 lignes[5] = customMsg.getString(lang+".NUMBER_FATIGUE_POINT_YOU");
+		 lignes[6] = customMsg.getString(lang+".NUMBER_FATIGUE_POINT_OTHER");
 		 
 		return lignes;
 	}
