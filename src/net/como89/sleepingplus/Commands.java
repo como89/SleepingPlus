@@ -69,31 +69,33 @@ public class Commands implements CommandExecutor{
 					return true;
 				}
 			}
-			if(args[0].equalsIgnoreCase("infoS"))
-			{
-				if(plugin.isPermit() && (!player.isOp() && !SleepingPlus.perm.has(player,"sleepingplus.com.infos")))
+			if(args.length <= 2 && args.length > 0){
+				if(args[0].equalsIgnoreCase("infoS"))
 				{
-					player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2));
-					return true;
-				}
-				if(args.length == 1)
-				{
-					SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
-					if(sleepPlayer != null)
+					if(plugin.isPermit() && (!player.isOp() && !SleepingPlus.perm.has(player,"sleepingplus.com.infos")))
 					{
-						player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPoint(MsgLang.getMsg(5),sleepPlayer.getFatigueRate()));
+						player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2));
+						return true;
 					}
-					return true;
-				}
-				if(args.length == 2)
-				{
-					Player p = Bukkit.getPlayer(args[1]);
-					SleepPlayer sleepPlayer = ManageData.getSleepPlayer(p);
-					if(sleepPlayer != null)
+					if(args.length == 1)
 					{
-						player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPlayer(MsgLang.convertMsgPoint(MsgLang.getMsg(6),sleepPlayer.getFatigueRate()),p));
+						SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+						if(sleepPlayer != null)
+						{
+							player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPoint(MsgLang.getMsg(5),sleepPlayer.getFatigueRate()));
+						}
+						return true;
 					}
-					return true;
+					if(args.length == 2)
+					{
+						Player p = Bukkit.getPlayer(args[1]);
+						SleepPlayer sleepPlayer = ManageData.getSleepPlayer(p);
+						if(sleepPlayer != null)
+						{
+							player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPlayer(MsgLang.convertMsgPoint(MsgLang.getMsg(6),sleepPlayer.getFatigueRate()),p));
+						}
+						return true;
+					}
 				}
 			}
 		}

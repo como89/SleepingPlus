@@ -12,6 +12,8 @@ timeNoSleep: 20
 timeExitServer: 10
 # Number of seconds where you must stay in bed.
 timeInBed: 15
+# Number of seconds where the player must to stay on a chair.
+timeOnChair: 10
 # Number of fatigue which will be added at the rate of fatigue in a death.
 nbRateWithDeath: 10
 # Would you use the xp bar to show the number of fatigue?

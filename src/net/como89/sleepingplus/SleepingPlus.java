@@ -1,7 +1,6 @@
 package net.como89.sleepingplus;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
@@ -14,6 +13,7 @@ import net.como89.sleepingplus.event.PlayerEvent;
 import net.como89.sleepingplus.nms.M_1_5;
 import net.como89.sleepingplus.nms.M_1_6;
 import net.como89.sleepingplus.nms.M_1_7_R1;
+import net.como89.sleepingplus.nms.M_1_7_R2;
 import net.como89.sleepingplus.nms.NMSCLASS;
 import net.como89.sleepingplus.task.TaskTimeNoSleep;
 import net.milkbowl.vault.permission.Permission;
@@ -54,8 +54,8 @@ public class SleepingPlus extends JavaPlugin{
 	private int timeNoSleep;
 	private long timeExitServer;
 	
-	private long timeInBed;
-	private long timeOnChair;
+	private int timeInBed;
+	private int timeOnChair;
 	private int nbRateWithDeath;
 	
 	public boolean isActiveFatigue()
@@ -98,12 +98,12 @@ public class SleepingPlus extends JavaPlugin{
 		return nbRateWithDeath;
 	}
 	
-	public long getTimeInBed()
+	public int getTimeInBed()
 	{
 		return timeInBed;
 	}
 	
-	public long getTimeOnChair(){
+	public int getTimeOnChair(){
 		return timeOnChair;
 	}
 	
@@ -162,6 +162,7 @@ public class SleepingPlus extends JavaPlugin{
 		getServer().getPluginManager().registerEvents(new EntityEvent(this), this);
 		if(getServer().getPluginManager().getPlugin("Chairs") != null){
 		getServer().getPluginManager().registerEvents(new ChairEvent(this), this);
+		logInfo("Chairs event load!");
 		}
 		getCommand("spp").setExecutor(new Commands(this));
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskTimeNoSleep(), 20, 20);
@@ -182,6 +183,9 @@ public class SleepingPlus extends JavaPlugin{
 		if(craftVersion.contains("1.7.2")){
 			return new M_1_7_R1();
 		}
+		if(craftVersion.contains("1.7.5")){
+			return new M_1_7_R2();
+		}
 		return null;
 	}
 	
@@ -191,18 +195,11 @@ public class SleepingPlus extends JavaPlugin{
 		}
 		customMsg = YamlConfiguration.loadConfiguration(fileMsg);
 		
-		InputStream defCustomMsg = this.getResource("msg.yml");
-		if(customMsg == null){
-			customMsg = YamlConfiguration.loadConfiguration(defCustomMsg);
-		}
-		
 		 if (!fileMsg.exists()) {            
 	         this.saveResource("msg.yml", false);
-			 try {
-					customMsg.save(fileMsg);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+	     	InputStream defCustomMsg = this.getResource("msg.yml");
+			customMsg = YamlConfiguration.loadConfiguration(defCustomMsg);
+		
 	     }
 		 
 		 String [] lignes = new String[7];

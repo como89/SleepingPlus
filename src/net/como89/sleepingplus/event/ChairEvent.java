@@ -34,7 +34,7 @@ public class ChairEvent implements Listener{
 		Player p = e.getPlayer();
 		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(p);
 		sleepPlayer.sitOnChair();
-		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new TaskSitOnChair(sleepPlayer), plugin.getTimeOnChair());
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new TaskSitOnChair(sleepPlayer), 20 * plugin.getTimeOnChair());
 	}
 	
 	@EventHandler
