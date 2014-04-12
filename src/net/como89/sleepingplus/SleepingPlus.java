@@ -15,6 +15,9 @@ import net.como89.sleepingplus.nms.M_1_6;
 import net.como89.sleepingplus.nms.M_1_7_R1;
 import net.como89.sleepingplus.nms.M_1_7_R2;
 import net.como89.sleepingplus.nms.NMSCLASS;
+import net.como89.sleepingplus.task.TaskQuitPlayer;
+import net.como89.sleepingplus.task.TaskSitOnChair;
+import net.como89.sleepingplus.task.TaskSleep;
 import net.como89.sleepingplus.task.TaskTimeNoSleep;
 import net.milkbowl.vault.permission.Permission;
 
@@ -56,6 +59,7 @@ public class SleepingPlus extends JavaPlugin{
 	
 	private int timeInBed;
 	private int timeOnChair;
+	private int nbFatigueRate;
 	private int nbRateWithDeath;
 	
 	public boolean isActiveFatigue()
@@ -105,6 +109,10 @@ public class SleepingPlus extends JavaPlugin{
 	
 	public int getTimeOnChair(){
 		return timeOnChair;
+	}
+	
+	public int getNbFatigueRate(){
+		return nbFatigueRate;
 	}
 	
 	public static String getLangage()
@@ -160,12 +168,19 @@ public class SleepingPlus extends JavaPlugin{
 		MsgLang.initialiseMsg(lignes);
 		getServer().getPluginManager().registerEvents(new PlayerEvent(this,netminecraftclass), this);
 		getServer().getPluginManager().registerEvents(new EntityEvent(this), this);
+		
+		getCommand("spp").setExecutor(new Commands(this));
+		
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskTimeNoSleep(), 20, 20 * getTimeNoSleep());
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskSleep(),20,20 * getTimeInBed());
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskQuitPlayer(),20, 20 * getTimeExitServer());
+		
 		if(getServer().getPluginManager().getPlugin("Chairs") != null){
-		getServer().getPluginManager().registerEvents(new ChairEvent(this), this);
+		getServer().getPluginManager().registerEvents(new ChairEvent(), this);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskSitOnChair(),20, 20 * getTimeOnChair());
 		logInfo("Chairs event load!");
 		}
-		getCommand("spp").setExecutor(new Commands(this));
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskTimeNoSleep(), 20, 20);
+		
 		logInfo("Author : " + pdFile.getAuthors());
 		logInfo("Plugin enable");
 	}
@@ -253,6 +268,7 @@ public class SleepingPlus extends JavaPlugin{
 		timeNoSleep =  this.getConfig().getInt("timeNoSleep");
 		int minute = this.getConfig().getInt("timeExitServer");
 		timeExitServer = convertMinutesInSecond(minute);
+		nbFatigueRate = this.getConfig().getInt("nbFatigueRate");
 		timeInBed = this.getConfig().getInt("timeInBed");
 		timeOnChair = this.getConfig().getInt("timeOnChair");
 		nbRateWithDeath = this.getConfig().getInt("nbRateWithDeath");

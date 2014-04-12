@@ -6,13 +6,15 @@ permissions: false
 # Effects when the player becomes tired.
 # Identified by name, for how long, in seconds, the rate of fatigue so that the effect is activated.
 potionsEffect: SLOW,10,30,2/SLOW_DIGGING,10,40,2/BLINDNESS,10,60,3
-# A period to indicate the number of seconds without sleep, the fatigue rate increases by 1 after this time.
+# A period to indicate the number of seconds without sleep, the fatigue rate increases by the number below after this time.
 timeNoSleep: 20
-# The number of minutes it takes being offline for fatigue removed.
+# The number of minutes it takes being offline for fatigue to be remove by the number below.
 timeExitServer: 10
-# Number of seconds where you must stay in bed.
+# The number of fatigue that will be added or removed.
+nbFatigueRate: 2
+# Number of seconds where you must stay in bed will remove the nbFatigueRate.
 timeInBed: 15
-# Number of seconds where the player must to stay on a chair.
+# Number of seconds where the player must to stay on a chair will remove the nbFatigueRate.
 timeOnChair: 10
 # Number of fatigue which will be added at the rate of fatigue in a death.
 nbRateWithDeath: 10

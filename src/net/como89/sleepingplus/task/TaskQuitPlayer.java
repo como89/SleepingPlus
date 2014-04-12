@@ -1,5 +1,7 @@
 package net.como89.sleepingplus.task;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.como89.sleepingplus.data.ManageData;
@@ -12,23 +14,25 @@ import net.como89.sleepingplus.data.SleepPlayer;
  */
 public class TaskQuitPlayer extends BukkitRunnable {
 
-	private SleepPlayer sleepPlayer;
-	
-	public TaskQuitPlayer(SleepPlayer sleepPlayer)
+	private static boolean running = false;
+	public TaskQuitPlayer()
 	{
-		this.sleepPlayer = sleepPlayer;
+		
 	}
 	
 	@Override
 	public void run() {
-		if(sleepPlayer.isLogin() && sleepPlayer.getTimeNoSleep() > 0)
+		if(!running)
 		{
-			ManageData.actualiseTime(sleepPlayer, 0);
-			sleepPlayer.logout();
-		}
-		else
-		{
-			sleepPlayer.login();
+			running = true;
+			for(OfflinePlayer player : Bukkit.getOfflinePlayers()){
+				SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player.getPlayer());
+				if(sleepPlayer != null){
+					if(!sleepPlayer.isLogin() && sleepPlayer.getFatigueRate() > 0){
+						ManageData.reduceFatigue(sleepPlayer,true);
+					}
+				}
+			}
 		}
 	}
 }

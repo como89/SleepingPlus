@@ -1,11 +1,8 @@
 package net.como89.sleepingplus.event;
 
-import net.como89.sleepingplus.SleepingPlus;
 import net.como89.sleepingplus.data.ManageData;
 import net.como89.sleepingplus.data.SleepPlayer;
-import net.como89.sleepingplus.task.TaskSitOnChair;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,10 +20,8 @@ import com.cnaude.chairs.api.PlayerChairUnsitEvent;
  */
 public class ChairEvent implements Listener{
 
-	private SleepingPlus plugin;
 	
-	public ChairEvent(SleepingPlus plugin){
-		this.plugin = plugin;
+	public ChairEvent(){
 	}
 	
 	@EventHandler
@@ -34,7 +29,6 @@ public class ChairEvent implements Listener{
 		Player p = e.getPlayer();
 		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(p);
 		sleepPlayer.sitOnChair();
-		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new TaskSitOnChair(sleepPlayer), 20 * plugin.getTimeOnChair());
 	}
 	
 	@EventHandler

@@ -1,14 +1,11 @@
 package net.como89.sleepingplus.task;
 
-import java.util.Collection;
 
-import org.bukkit.ChatColor;
-import org.bukkit.potion.PotionEffect;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.como89.sleepingplus.data.FileManager;
 import net.como89.sleepingplus.data.ManageData;
-import net.como89.sleepingplus.data.MsgLang;
 import net.como89.sleepingplus.data.SleepPlayer;
 
 /**
@@ -17,26 +14,27 @@ import net.como89.sleepingplus.data.SleepPlayer;
  * #English - This class handles when a player enters a bed. It checks if it is still in the bed before removing the effects of potions and to zero the rate of fatigue.
  */
 public class TaskSleep extends BukkitRunnable {
-
-	private SleepPlayer sleepPlayer;
 	
-	public TaskSleep(SleepPlayer sleepPlayer)
+	private static boolean running = false;
+	public TaskSleep()
 	{
-		this.sleepPlayer = sleepPlayer;
+		
 	}
 	
 	@Override
 	public void run() {
-		if(sleepPlayer.isInBed() && sleepPlayer.getFatigueRate() > 0)
+		if(!running)
 		{
-			Collection<PotionEffect> listEffect = sleepPlayer.getPlayer().getActivePotionEffects();
-			for(PotionEffect potionE : listEffect)
-			{
-				sleepPlayer.getPlayer().removePotionEffect(potionE.getType());
+			running = true;
+			for(Player player : Bukkit.getOnlinePlayers()){
+				SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+				if(sleepPlayer != null){
+					if(sleepPlayer.isInBed() && sleepPlayer.getFatigueRate() > 0)
+					{
+						ManageData.reduceFatigue(sleepPlayer,false);
+					}
+				}
 			}
-			ManageData.actualiseTime(sleepPlayer, 0);
-			new FileManager(sleepPlayer).saveData();
-			sleepPlayer.getPlayer().sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(4));
 		}
 	}
 

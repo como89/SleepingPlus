@@ -1,14 +1,10 @@
 package net.como89.sleepingplus.task;
 
-import java.util.Collection;
-
-import net.como89.sleepingplus.data.FileManager;
 import net.como89.sleepingplus.data.ManageData;
-import net.como89.sleepingplus.data.MsgLang;
 import net.como89.sleepingplus.data.SleepPlayer;
 
-import org.bukkit.ChatColor;
-import org.bukkit.potion.PotionEffect;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -18,23 +14,24 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class TaskSitOnChair extends BukkitRunnable{
 
-	private SleepPlayer sleepPlayer;
-	
-	public TaskSitOnChair(SleepPlayer sleepPlayer){
-		this.sleepPlayer = sleepPlayer;
+	private static boolean running = false;
+	public TaskSitOnChair(){
+		
 	}
 	
 	@Override
 	public void run() {
-		if(sleepPlayer.isSitOnChair() && sleepPlayer.getFatigueRate() > 0){
-			Collection<PotionEffect> listEffect = sleepPlayer.getPlayer().getActivePotionEffects();
-			for(PotionEffect potionE : listEffect)
-			{
-				sleepPlayer.getPlayer().removePotionEffect(potionE.getType());
+		if(!running)
+		{
+			running = true;
+			for(Player player : Bukkit.getOnlinePlayers()){
+				SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+				if(sleepPlayer != null){
+					if(sleepPlayer.isSitOnChair() && sleepPlayer.getFatigueRate() > 0){
+						ManageData.reduceFatigue(sleepPlayer,false);
+					}
+				}
 			}
-			ManageData.actualiseTime(sleepPlayer, 0);
-			new FileManager(sleepPlayer).saveData();
-			sleepPlayer.getPlayer().sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(4));
 		}
 	}
 

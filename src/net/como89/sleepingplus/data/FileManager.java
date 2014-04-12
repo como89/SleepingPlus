@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 
 import org.bukkit.entity.Player;
 
-import net.como89.sleepingplus.task.TaskTimeNoSleep;
 
 /**
  * @author como89
@@ -37,7 +36,7 @@ public class FileManager {
 		String donnees = "";
 			try {
 				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("plugins/SleepingPlus/DataPlayer/"+sleepPlayer.getPlayer().getName()+".dat")));
-				donnees = sleepPlayer.getTimeNoSleep()+":"+sleepPlayer.getFatigueRate()+":"+sleepPlayer.isActive();		
+				donnees = sleepPlayer.getFatigueRate()+":"+sleepPlayer.isActive();		
 				donnees = enc.encrypt(donnees);
 				out.write(donnees);
 				out.close();
@@ -52,7 +51,6 @@ public class FileManager {
 		File file = new File("plugins/SleepingPlus/DataPlayer/"+player.getName()+".dat");
 		try
 		{
-			TaskTimeNoSleep.running = true;
 			BufferedReader in
 			   = new BufferedReader(new FileReader(file));
 			String ligne = "";
@@ -64,9 +62,14 @@ public class FileManager {
 			in.close();
 			donnees = enc.decrypt(donnees);
 			String [] lignes = donnees.split(":");
-			SleepPlayer sleep = new SleepPlayer(player,Long.parseLong(lignes[0]),Integer.parseInt(lignes[1]),Boolean.parseBoolean(lignes[2]));
+			SleepPlayer sleep = null;
+			if(lignes.length == 3){
+				sleep = new SleepPlayer(player,Integer.parseInt(lignes[1]),Boolean.parseBoolean(lignes[2]));
+			}
+			else if(lignes.length == 2){
+				sleep = new SleepPlayer(player,Integer.parseInt(lignes[0]),Boolean.parseBoolean(lignes[1]));
+			}
 			Data.getListePlayer().add(sleep);
-			TaskTimeNoSleep.running = false;
 		}
 		catch(Exception e)
 		{

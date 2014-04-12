@@ -1,14 +1,11 @@
 package net.como89.sleepingplus.event;
 
-import java.util.Collection;
 
 import net.como89.sleepingplus.SleepingPlus;
 import net.como89.sleepingplus.data.FileManager;
 import net.como89.sleepingplus.data.ManageData;
 import net.como89.sleepingplus.data.SleepPlayer;
 import net.como89.sleepingplus.nms.NMSCLASS;
-import net.como89.sleepingplus.task.TaskQuitPlayer;
-import net.como89.sleepingplus.task.TaskSleep;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -31,7 +28,6 @@ import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 
 /**
  * @author como89
@@ -75,18 +71,10 @@ public class PlayerEvent implements Listener {
 			ManageData.addPlayer(player);
 		}
 		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
-		if(!sleepPlayer.isLogin())
+		sleepPlayer.login();
+		if(sleepPlayer.getFatigueRate() < 1)
 		{
-			Collection<PotionEffect> listEffect = sleepPlayer.getPlayer().getActivePotionEffects();
-			for(PotionEffect potionE : listEffect)
-			{
-				sleepPlayer.getPlayer().removePotionEffect(potionE.getType());
-			}
-			sleepPlayer.logTimeNow();
-		}
-		else
-		{
-			sleepPlayer.logout();
+			ManageData.removeEffect(ManageData.getListEffect(sleepPlayer.getFatigueRate()), player);
 		}
 		if(!sleepPlayer.isActive() && plugin.isActiveFatigue())
 		{
@@ -99,7 +87,7 @@ public class PlayerEvent implements Listener {
 	{
 		Player player = event.getPlayer();
 		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
-		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new TaskQuitPlayer(sleepPlayer), 20 * plugin.getTimeExitServer());
+		sleepPlayer.logout();
 		new FileManager(sleepPlayer).saveData();
 	}
 	
@@ -109,7 +97,6 @@ public class PlayerEvent implements Listener {
 		Player player = event.getPlayer();
 		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
 		sleepPlayer.inBed();
-		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new TaskSleep(sleepPlayer),20 * plugin.getTimeInBed());
 	}
 	
 	@EventHandler
@@ -129,7 +116,7 @@ public class PlayerEvent implements Listener {
 	{
 		Player player = event.getEntity();
 		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
-		ManageData.addDramaticFatigue(sleepPlayer);
+		ManageData.addFatigue(sleepPlayer, true);
 	}
 	
 	@EventHandler
