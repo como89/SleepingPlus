@@ -214,7 +214,6 @@ public class SleepingPlus extends JavaPlugin{
 	         this.saveResource("msg.yml", false);
 	     	InputStream defCustomMsg = this.getResource("msg.yml");
 			customMsg = YamlConfiguration.loadConfiguration(defCustomMsg);
-		
 	     }
 		 
 		 String [] lignes = new String[7];

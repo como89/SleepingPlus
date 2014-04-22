@@ -92,8 +92,13 @@ public class ManageData {
 	
 	public static synchronized void reduceFatigue(SleepPlayer sleepPlayer,boolean disconnected){
 		if(sleepPlayer != null){
+			if(disconnected){
+				sleepPlayer.removeFatigueRate(sleepPlayer.getFatigueRate());
+			}
+			else{
 			sleepPlayer.removeFatigueRate(1);
-			if(sleepPlayer.getFatigueRate() == 0){
+			}
+			if(sleepPlayer.getFatigueRate() == 0 && !disconnected){
 				removeEffect(getListEffect(sleepPlayer.getFatigueRate()),sleepPlayer.getPlayer());
 				sleepPlayer.getPlayer().sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(4));
 				new FileManager(sleepPlayer).saveData();
