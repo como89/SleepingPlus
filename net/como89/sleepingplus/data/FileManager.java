@@ -34,7 +34,7 @@ public class FileManager {
 	
 	public void saveData()
 	{
-		Encrypter enc = new Encrypter("Key here");
+		Encrypter enc = new Encrypter("testing89");
 		String donnees = "";
 			try {
 				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("plugins/SleepingPlus/DataPlayer/" + player.getWorld().getName() + "/" + sleepPlayer.getPlayer() +".dat")));
@@ -49,7 +49,7 @@ public class FileManager {
 	
 	public void loadData()
 	{
-		Encrypter enc = new Encrypter("Key here");
+		Encrypter enc = new Encrypter("testing89");
 		File file = new File("plugins/SleepingPlus/DataPlayer/" + player.getWorld().getName() + "/"+player.getName()+".dat");
 		try
 		{

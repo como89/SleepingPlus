@@ -5,7 +5,9 @@ import java.util.Collection;
 
 import net.como89.sleepingplus.SleepingPlus;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -17,34 +19,41 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class ManageData {
 	
-	private static SleepingPlus plugin;
+	private SleepingPlus plugin;
 	
 	public ManageData(SleepingPlus plugins)
 	{
 		plugin = plugins;
 	}
 	
-	public static boolean isExistPlayer(Player player)
+	public boolean isExistPlayer(Player player)
 	{
-		for(SleepPlayer sleepPlayer : Data.getListePlayer())
-		{
-			if(sleepPlayer.getPlayer().equals(player))
-			{
-				return true;
+		for(String world : Data.getListePlayer().keySet()){
+			if(world.equals(player.getWorld().getName())){
+				for(SleepPlayer sleepPlayer : Data.getListePlayer().get(world)){
+					if(sleepPlayer.getPlayer().equals(player))
+					{
+						return true;
+					}
+				}
 			}
 		}
 		return false;
 	}
 	
-	public static void addPlayer(Player player)
+	public void addWorld(String world){
+		Data.getListePlayer().put(world, new ArrayList<SleepPlayer>());
+	}
+	
+	public void addPlayer(Player player)
 	{
 		if(player != null)
 		{
-		Data.getListePlayer().add(new SleepPlayer(player));
+		Data.getListePlayer().get(player.getWorld().getName()).add(new SleepPlayer(player.getName()));
 		}
 	}
 	
-	public static void removePlayer(SleepPlayer player)
+	public void removePlayer(SleepPlayer player)
 	{	
 		if(player != null)
 		{
@@ -52,7 +61,7 @@ public class ManageData {
 		}
 	}
 	
-	public static void addEffect(Effect effect)
+	public void addEffect(Effect effect)
 	{
 		if(effect != null)
 		{
@@ -60,24 +69,30 @@ public class ManageData {
 		}
 	}
 	
-	public static void clearEffect()
+	public void clearEffect()
 	{
 		Data.getListeEffect().clear();
 	}
 	
-	public synchronized static SleepPlayer getSleepPlayer(Player player)
+	public SleepPlayer getSleepPlayer(Player player)
 	{
-		for(SleepPlayer sleepPlayer : Data.getListePlayer())
-		{
-			if(sleepPlayer.getPlayer().equals(player))
-			{
-				return sleepPlayer;
+		if(player != null){
+			for(String world : Data.getListePlayer().keySet()){
+				World worldPlayer = player.getWorld();
+					if(world.equals(worldPlayer.getName())){
+						for(SleepPlayer sleepPlayer : Data.getListePlayer().get(world)){
+							if(sleepPlayer.getPlayer().equals(player.getName()))
+							{
+								return sleepPlayer;
+							}
+						}
+					}
 			}
 		}
 		return null;
 	}
 	
-	public static ArrayList<Effect> getListEffect(int tauxFatigue)
+	public ArrayList<Effect> getListEffect(int tauxFatigue)
 	{
 		ArrayList<Effect> listEffect = new ArrayList<Effect>();
 		for(Effect effect : Data.getListeEffect())
@@ -90,7 +105,7 @@ public class ManageData {
 		return listEffect;
 	}
 	
-	public static synchronized void reduceFatigue(SleepPlayer sleepPlayer,boolean disconnected){
+	public void reduceFatigue(SleepPlayer sleepPlayer,boolean disconnected){
 		if(sleepPlayer != null){
 			if(disconnected){
 				sleepPlayer.removeFatigueRate(sleepPlayer.getFatigueRate());
@@ -99,18 +114,18 @@ public class ManageData {
 			sleepPlayer.removeFatigueRate(1);
 			}
 			if(sleepPlayer.getFatigueRate() == 0 && !disconnected){
-				removeEffect(getListEffect(sleepPlayer.getFatigueRate()),sleepPlayer.getPlayer());
-				sleepPlayer.getPlayer().sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(4));
+				removeEffect(getListEffect(sleepPlayer.getFatigueRate()),Bukkit.getPlayer(sleepPlayer.getPlayer()));
+				Bukkit.getPlayer(sleepPlayer.getPlayer()).sendMessage(ChatColor.GREEN + "[SleepingPlus] - " + MsgLang.getMsg(4));
 				new FileManager(sleepPlayer).saveData();
 			}
 			if(plugin.isXpBar())
 			{
-				sleepPlayer.getPlayer().setLevel(sleepPlayer.getFatigueRate());
+				Bukkit.getPlayer(sleepPlayer.getPlayer()).setLevel(sleepPlayer.getFatigueRate());
 			}
 		}
 	}
 	
-	public static synchronized void addFatigue(SleepPlayer sleepPlayer,boolean dramatic){
+	public void addFatigue(SleepPlayer sleepPlayer,boolean dramatic){
 		if(sleepPlayer != null){
 			if(dramatic){
 				sleepPlayer.addFatigueRate(plugin.getNbRatWithDeath());
@@ -120,16 +135,16 @@ public class ManageData {
 			}
 			ArrayList<Effect> listEffect = getListEffect(sleepPlayer.getFatigueRate());
 			if(listEffect.size() > 0){
-				appliesEffect(listEffect, sleepPlayer.getPlayer());
+				appliesEffect(listEffect, Bukkit.getPlayer(sleepPlayer.getPlayer()));
 			}
 			if(plugin.isXpBar())
 			{
-				sleepPlayer.getPlayer().setLevel(sleepPlayer.getFatigueRate());
+				Bukkit.getPlayer(sleepPlayer.getPlayer()).setLevel(sleepPlayer.getFatigueRate());
 			}
 		}
 	}
 	
-	private static void appliesEffect(ArrayList<Effect> listEffect,Player player)
+	private void appliesEffect(ArrayList<Effect> listEffect,Player player)
 	{
 		Collection <PotionEffect> listeEffetOnPlayer = player.getActivePotionEffects();
 		boolean PotionCorrect = true;
@@ -152,7 +167,7 @@ public class ManageData {
 		}
 	}
 	
-	public static void removeEffect(ArrayList<Effect> listEffect,Player player){
+	public void removeEffect(ArrayList<Effect> listEffect,Player player){
 		Collection <PotionEffect> listeEffetOnPlayer = player.getActivePotionEffects();
 		boolean PotionCorrect = false;
 		PotionEffect potion = null;

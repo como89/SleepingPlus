@@ -14,6 +14,7 @@ import net.como89.sleepingplus.nms.M_1_5;
 import net.como89.sleepingplus.nms.M_1_6;
 import net.como89.sleepingplus.nms.M_1_7_R1;
 import net.como89.sleepingplus.nms.M_1_7_R2;
+import net.como89.sleepingplus.nms.M_1_7_R3;
 import net.como89.sleepingplus.nms.NMSCLASS;
 import net.como89.sleepingplus.task.TaskQuitPlayer;
 import net.como89.sleepingplus.task.TaskSitOnChair;
@@ -22,6 +23,7 @@ import net.como89.sleepingplus.task.TaskTimeNoSleep;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -34,6 +36,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * #French - Cette classe est la classe principale du plugin. Elle gère la config, enregistre l'event pour le joueur et celui de la commande /sp.
  * #English - This class is the main class of the plugin. It manages the config, records the event for the player and the command /sp.
  */
+@SuppressWarnings("deprecation")
 public class SleepingPlus extends JavaPlugin{
 
 	private PluginDescriptionFile pdFile;
@@ -46,6 +49,8 @@ public class SleepingPlus extends JavaPlugin{
 	
 	private String listeEffet;
 	private static String language;
+	
+	private ManageData manData;
 	
 	private long delaisTime;
 	private boolean delais;
@@ -133,6 +138,12 @@ public class SleepingPlus extends JavaPlugin{
 		log = getServer().getLogger();
 		pdFile = getDescription();
 		vault = getServer().getPluginManager().getPlugin("Vault");
+		manData = new ManageData(this);
+		for(World world : Bukkit.getWorlds()){
+			File dossierWorld = new File("plugins/SleepingPlus/DataPlayer/"+world.getName()+"/");
+			dossierWorld.mkdirs();
+			manData.addWorld(world.getName());
+		}
 		this.saveDefaultConfig();
 		loadConfig();
 		NMSCLASS netminecraftclass = loadMinecraftClass();
@@ -163,22 +174,21 @@ public class SleepingPlus extends JavaPlugin{
 				return;
 			}
 		}
-		new ManageData(this);
 		String [] lignes = loadMsg();
 		MsgLang.initialiseMsg(lignes);
-		getServer().getPluginManager().registerEvents(new PlayerEvent(this,netminecraftclass), this);
+		getServer().getPluginManager().registerEvents(new PlayerEvent(this,netminecraftclass,manData), this);
 		getServer().getPluginManager().registerEvents(new EntityEvent(this), this);
 		
-		getCommand("spp").setExecutor(new Commands(this));
+		getCommand("spp").setExecutor(new Commands(this,manData));
 		
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskTimeNoSleep(), 20, 20 * getTimeNoSleep());
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskSleep(),20,20 * getTimeInBed());
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskQuitPlayer(),20, 20 * getTimeExitServer());
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskTimeNoSleep(manData), 20, 20 * getTimeNoSleep());
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskSleep(manData),20,20 * getTimeInBed());
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskQuitPlayer(manData),20, 20 * getTimeExitServer());
 		
 		if(getServer().getPluginManager().getPlugin("Chairs") != null){
-		getServer().getPluginManager().registerEvents(new ChairEvent(), this);
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskSitOnChair(),20, 20 * getTimeOnChair());
-		logInfo("Chairs event load!");
+		getServer().getPluginManager().registerEvents(new ChairEvent(manData), this);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskSitOnChair(manData),20, 20 * getTimeOnChair());
+		logInfo("Link to chairs complete!");
 		}
 		
 		logInfo("Author : " + pdFile.getAuthors());
@@ -200,6 +210,9 @@ public class SleepingPlus extends JavaPlugin{
 		}
 		if(craftVersion.contains("1.7.5")){
 			return new M_1_7_R2();
+		}
+		if(craftVersion.contains("1.7.9")){
+			return new M_1_7_R3();
 		}
 		return null;
 	}
@@ -274,7 +287,7 @@ public class SleepingPlus extends JavaPlugin{
 		useXpBar = this.getConfig().getBoolean("useXpBar");
 		activateFatigue = this.getConfig().getBoolean("activateFatigueOnConnect");
 		activateBedAtDay = this.getConfig().getBoolean("activateBedAtDay");
-		ManageData.clearEffect();
+		manData.clearEffect();
 		loadEffect();
 	}
 	
@@ -285,7 +298,7 @@ public class SleepingPlus extends JavaPlugin{
 		{
 			String [] lignes = effetString.split(",");
 			Effect effet = new Effect(lignes[0],Integer.parseInt(lignes[1]),Integer.parseInt(lignes[2]),Integer.parseInt(lignes[3]));
-			ManageData.addEffect(effet);
+			manData.addEffect(effet);
 		}
 	}
 	

@@ -50,11 +50,13 @@ public class PlayerEvent implements Listener {
 
 	private SleepingPlus plugin;
 	private NMSCLASS netminecraftclass;
+	private ManageData manData;
 	
-	public PlayerEvent(SleepingPlus plugin,NMSCLASS netminecraftclass)
+	public PlayerEvent(SleepingPlus plugin,NMSCLASS netminecraftclass,ManageData manData)
 	{
 		this.plugin = plugin;
 		this.netminecraftclass = netminecraftclass;
+		this.manData = manData;
 	}
 	
 	@EventHandler
@@ -66,15 +68,15 @@ public class PlayerEvent implements Listener {
 		{
 			fileMan.loadData();
 		}
-		else if(!ManageData.isExistPlayer(player))
+		else if(!manData.isExistPlayer(player))
 		{
-			ManageData.addPlayer(player);
+			manData.addPlayer(player);
 		}
-		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
 		sleepPlayer.login();
 		if(sleepPlayer.getFatigueRate() < 1)
 		{
-			ManageData.removeEffect(ManageData.getListEffect(sleepPlayer.getFatigueRate()), player);
+			manData.removeEffect(manData.getListEffect(sleepPlayer.getFatigueRate()), player);
 		}
 		if(!sleepPlayer.isActive() && plugin.isActiveFatigue())
 		{
@@ -86,7 +88,7 @@ public class PlayerEvent implements Listener {
 	public void onPlayerQuitEvent(PlayerQuitEvent event)
 	{
 		Player player = event.getPlayer();
-		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
 		sleepPlayer.logout();
 		new FileManager(sleepPlayer).saveData();
 	}
@@ -95,7 +97,7 @@ public class PlayerEvent implements Listener {
 	public void onPlayerEnterBed(PlayerBedEnterEvent event)
 	{
 		Player player = event.getPlayer();
-		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
 		sleepPlayer.inBed();
 	}
 	
@@ -103,7 +105,7 @@ public class PlayerEvent implements Listener {
 	public void onPlayerLeaveBed(PlayerBedLeaveEvent event)
 	{
 		Player player = event.getPlayer();
-		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
 		sleepPlayer.outBed();
 		if(plugin.isActiveBedAtDay() && netminecraftclass != null)
 		{
@@ -115,8 +117,8 @@ public class PlayerEvent implements Listener {
 	public void onPlayerDeath(PlayerDeathEvent event)
 	{
 		Player player = event.getEntity();
-		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
-		ManageData.addFatigue(sleepPlayer, true);
+		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
+		manData.addFatigue(sleepPlayer, true);
 	}
 	
 	@EventHandler

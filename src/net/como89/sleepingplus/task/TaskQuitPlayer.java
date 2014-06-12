@@ -15,9 +15,10 @@ import net.como89.sleepingplus.data.SleepPlayer;
 public class TaskQuitPlayer extends BukkitRunnable {
 
 	private static boolean running = false;
-	public TaskQuitPlayer()
+	private ManageData manData;
+	public TaskQuitPlayer(ManageData manData)
 	{
-		
+		this.manData = manData;
 	}
 	
 	@Override
@@ -26,10 +27,10 @@ public class TaskQuitPlayer extends BukkitRunnable {
 		{
 			running = true;
 			for(OfflinePlayer player : Bukkit.getOfflinePlayers()){
-				SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player.getPlayer());
+				SleepPlayer sleepPlayer = manData.getSleepPlayer(player.getPlayer());
 				if(sleepPlayer != null){
 					if(!sleepPlayer.isLogin() && sleepPlayer.getFatigueRate() > 0){
-						ManageData.reduceFatigue(sleepPlayer,true);
+						manData.reduceFatigue(sleepPlayer,true);
 					}
 				}
 			}

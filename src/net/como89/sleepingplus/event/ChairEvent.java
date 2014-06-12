@@ -20,21 +20,23 @@ import com.cnaude.chairs.api.PlayerChairUnsitEvent;
  */
 public class ChairEvent implements Listener{
 
+	private ManageData manData;
 	
-	public ChairEvent(){
+	public ChairEvent(ManageData manData){
+		this.manData = manData;
 	}
 	
 	@EventHandler
 	public void sitEvent(PlayerChairSitEvent e){
 		Player p = e.getPlayer();
-		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(p);
+		SleepPlayer sleepPlayer = manData.getSleepPlayer(p);
 		sleepPlayer.sitOnChair();
 	}
 	
 	@EventHandler
 	public void unSitEvent(PlayerChairUnsitEvent e){
 		Player p = e.getPlayer();
-		SleepPlayer sleepPlayer = ManageData.getSleepPlayer(p);
+		SleepPlayer sleepPlayer = manData.getSleepPlayer(p);
 		sleepPlayer.unSit();
 	}
 }

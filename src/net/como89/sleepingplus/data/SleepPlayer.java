@@ -1,6 +1,5 @@
 package net.como89.sleepingplus.data;
 
-import org.bukkit.entity.Player;
 
 /**
  * @author como89
@@ -9,14 +8,14 @@ import org.bukkit.entity.Player;
  */
 public class SleepPlayer {
 	
-	private Player player;
+	private String player;
 	private int fatigueRate;
 	private boolean inBed;
 	private boolean active;
 	private boolean login;
 	private boolean sitDown;
 	
-	public SleepPlayer(Player player)
+	public SleepPlayer(String player)
 	{
 		this.player = player;
 		inBed = false;
@@ -26,7 +25,7 @@ public class SleepPlayer {
 		fatigueRate = 0;
 	}
 	
-	public SleepPlayer(Player player,int fatigueRate,boolean active)
+	public SleepPlayer(String player,int fatigueRate,boolean active)
 	{
 		this.player = player;
 		this.inBed = false;
@@ -36,7 +35,7 @@ public class SleepPlayer {
 		this.fatigueRate = fatigueRate;
 	}
 	
-	public Player getPlayer()
+	public String getPlayer()
 	{
 		return player;
 	}

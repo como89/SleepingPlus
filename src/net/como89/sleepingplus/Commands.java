@@ -19,10 +19,12 @@ import org.bukkit.entity.Player;
 public class Commands implements CommandExecutor{
 
 	private SleepingPlus plugin;
+	private ManageData manData;
 	
-	public Commands(SleepingPlus plugin)
+	public Commands(SleepingPlus plugin,ManageData manData)
 	{
 		this.plugin = plugin;
+		this.manData = manData;
 	}
 	@Override
 	public boolean onCommand(CommandSender cmd, Command cmds, String label,
@@ -41,7 +43,7 @@ public class Commands implements CommandExecutor{
 			{
 				if(args[0].equalsIgnoreCase("toggle"))
 				{
-					SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+					SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
 					if(plugin.isPermit() && (!player.isOp() && !SleepingPlus.perm.has(player,"sleepingplus.com.toggle")))
 					{
 						player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(2));
@@ -79,7 +81,7 @@ public class Commands implements CommandExecutor{
 					}
 					if(args.length == 1)
 					{
-						SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+						SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
 						if(sleepPlayer != null)
 						{
 							player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPoint(MsgLang.getMsg(5),sleepPlayer.getFatigueRate()));
@@ -89,7 +91,7 @@ public class Commands implements CommandExecutor{
 					if(args.length == 2)
 					{
 						Player p = Bukkit.getPlayer(args[1]);
-						SleepPlayer sleepPlayer = ManageData.getSleepPlayer(p);
+						SleepPlayer sleepPlayer = manData.getSleepPlayer(p);
 						if(sleepPlayer != null)
 						{
 							player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPlayer(MsgLang.convertMsgPoint(MsgLang.getMsg(6),sleepPlayer.getFatigueRate()),p));

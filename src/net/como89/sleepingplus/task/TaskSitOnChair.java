@@ -15,8 +15,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class TaskSitOnChair extends BukkitRunnable{
 
 	private static boolean running = false;
-	public TaskSitOnChair(){
-		
+	private ManageData manData;
+	public TaskSitOnChair(ManageData manData){
+		this.manData = manData;
 	}
 	
 	@Override
@@ -25,10 +26,10 @@ public class TaskSitOnChair extends BukkitRunnable{
 		{
 			running = true;
 			for(Player player : Bukkit.getOnlinePlayers()){
-				SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+				SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
 				if(sleepPlayer != null){
 					if(sleepPlayer.isSitOnChair() && sleepPlayer.getFatigueRate() > 0){
-						ManageData.reduceFatigue(sleepPlayer,false);
+						manData.reduceFatigue(sleepPlayer,false);
 					}
 				}
 			}

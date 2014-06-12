@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_6_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+@Deprecated
 public class M_1_6 extends NMSCLASS {
 
 	private Packet18ArmAnimation pa;

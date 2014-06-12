@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import net.minecraft.server.v1_5_R3.Packet17EntityLocationAction;
 import net.minecraft.server.v1_5_R3.Packet18ArmAnimation;
 
+@Deprecated
 public class M_1_5 extends NMSCLASS{
 
 	Packet18ArmAnimation pa;

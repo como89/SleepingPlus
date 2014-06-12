@@ -16,9 +16,10 @@ import net.como89.sleepingplus.data.SleepPlayer;
 public class TaskTimeNoSleep extends BukkitRunnable {
 
 	private static boolean running = false;
-	
-	public TaskTimeNoSleep()
+	private ManageData manData;
+	public TaskTimeNoSleep(ManageData manData)
 	{
+		this.manData = manData;
 	}
 
 	@Override
@@ -27,10 +28,10 @@ public class TaskTimeNoSleep extends BukkitRunnable {
 		{
 			running = true;
 			for(Player player : Bukkit.getOnlinePlayers()){
-				SleepPlayer sleepPlayer = ManageData.getSleepPlayer(player);
+				SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
 				if(sleepPlayer != null){
 					if(sleepPlayer.isActive()){
-					ManageData.addFatigue(sleepPlayer, false);
+						manData.addFatigue(sleepPlayer, false);
 					}
 				}
 			}
