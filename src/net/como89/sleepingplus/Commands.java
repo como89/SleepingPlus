@@ -45,7 +45,7 @@ public class Commands implements CommandExecutor{
 				{
 					SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
 					if(sleepPlayer == null){
-						player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + "The plugin is not enable in this world.");
+						player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(7));
 						return true;
 					}
 					if(plugin.isPermit() && (!player.isOp() && !SleepingPlus.perm.has(player,"sleepingplus.com.toggle")))
@@ -87,7 +87,7 @@ public class Commands implements CommandExecutor{
 					{
 						SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
 						if(sleepPlayer == null){
-							player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + "The plugin is not enable in this world.");
+							player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(7));
 							return true;
 						}
 							player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPoint(MsgLang.getMsg(5),sleepPlayer.getFatigueRate()));
@@ -98,7 +98,7 @@ public class Commands implements CommandExecutor{
 						Player p = Bukkit.getPlayer(args[1]);
 						SleepPlayer sleepPlayer = manData.getSleepPlayer(p);
 						if(sleepPlayer == null){
-							player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + "The plugin is not enable in this world.");
+							player.sendMessage(ChatColor.RED + "[SleepingPlus] - " + MsgLang.getMsg(7));
 							return true;
 						}
 							player.sendMessage(ChatColor.GRAY + MsgLang.convertMsgPlayer(MsgLang.convertMsgPoint(MsgLang.getMsg(6),sleepPlayer.getFatigueRate()),p));

@@ -247,7 +247,7 @@ public class SleepingPlus extends JavaPlugin{
 			customMsg = YamlConfiguration.loadConfiguration(defCustomMsg);
 	     }
 		 
-		 String [] lignes = new String[7];
+		 String [] lignes = new String[8];
 		 String lang = language.toLowerCase();
 		 lignes[0] = customMsg.getString(lang+".ACTIVATE_PLUGIN");
 		 lignes[1] = customMsg.getString(lang+".DISABLED_PLUGIN");
@@ -256,6 +256,7 @@ public class SleepingPlus extends JavaPlugin{
 		 lignes[4] = customMsg.getString(lang+".LESS_TIRED");
 		 lignes[5] = customMsg.getString(lang+".NUMBER_FATIGUE_POINT_YOU");
 		 lignes[6] = customMsg.getString(lang+".NUMBER_FATIGUE_POINT_OTHER");
+		 lignes[7] = customMsg.getString(lang+".PLUGIN_DISABLE");
 		 
 		return lignes;
 	}

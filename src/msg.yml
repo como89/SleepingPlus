@@ -6,6 +6,7 @@ english:
     NO_PERMISSION : You do not have permission for this command.
     NUMBER_FATIGUE_POINT_OTHER : The number of point of fatigue for <player> is <ptFatigue> Points.
     NUMBER_FATIGUE_POINT_YOU : Your number of fatigue point is <ptFatigue> Points.
+    PLUGIN_DISABLE : The plugin is not enable in this world.
 french:
     ACTIVATE_PLUGIN : Vous avez activer le plugin pour vous.
     CONFIG_RELOAD : La config est maintenant reload.
@@ -14,3 +15,4 @@ french:
     NO_PERMISSION : Vous n'avez pas la permission pour cette commande.
     NUMBER_FATIGUE_POINT_OTHER : Le nombre de point de fatigue de <player> est à <ptFatigue> Points.
     NUMBER_FATIGUE_POINT_YOU : Votre nombre de point de fatigue est à  <ptFatigue> Points.
+    PLUGIN_DISABLE : Le plugin n'est pas activé dans ce monde.
