@@ -24,3 +24,5 @@ useXpBar: false
 activateFatigueOnConnect: false
 # Activate this and you can go to bed at day
 activateBedAtDay: true
+# List of world where the plugin should be enable. Create the list like this world:anotherworld . If null, the plugin will be enable in every world.
+listworld: null

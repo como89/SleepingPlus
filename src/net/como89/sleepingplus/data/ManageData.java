@@ -49,15 +49,10 @@ public class ManageData {
 	{
 		if(player != null)
 		{
-		Data.getListePlayer().get(player.getWorld().getName()).add(new SleepPlayer(player.getName()));
-		}
-	}
-	
-	public void removePlayer(SleepPlayer player)
-	{	
-		if(player != null)
-		{
-		Data.getListePlayer().remove(player);
+		String worldName = player.getWorld().getName();
+			if(checkIfWorldExist(worldName)){
+			Data.getListePlayer().get(worldName).add(new SleepPlayer(player.getName()));
+			}
 		}
 	}
 	
@@ -142,6 +137,15 @@ public class ManageData {
 				Bukkit.getPlayer(sleepPlayer.getPlayer()).setLevel(sleepPlayer.getFatigueRate());
 			}
 		}
+	}
+	
+	private boolean checkIfWorldExist(String world){
+		for(String worldName : plugin.getListWorlds()){
+			if(world.equals(worldName)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private void appliesEffect(ArrayList<Effect> listEffect,Player player)

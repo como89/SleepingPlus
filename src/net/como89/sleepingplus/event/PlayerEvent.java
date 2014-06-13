@@ -73,14 +73,16 @@ public class PlayerEvent implements Listener {
 			manData.addPlayer(player);
 		}
 		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
-		sleepPlayer.login();
-		if(sleepPlayer.getFatigueRate() < 1)
-		{
-			manData.removeEffect(manData.getListEffect(sleepPlayer.getFatigueRate()), player);
-		}
-		if(!sleepPlayer.isActive() && plugin.isActiveFatigue())
-		{
-			sleepPlayer.activer();
+		if(sleepPlayer != null){
+			sleepPlayer.login();
+			if(sleepPlayer.getFatigueRate() < 1)
+			{
+				manData.removeEffect(manData.getListEffect(sleepPlayer.getFatigueRate()), player);
+			}
+			if(!sleepPlayer.isActive() && plugin.isActiveFatigue())
+			{
+				sleepPlayer.activer();
+			}
 		}
 	}
 	
@@ -89,8 +91,10 @@ public class PlayerEvent implements Listener {
 	{
 		Player player = event.getPlayer();
 		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
+		if(sleepPlayer != null){
 		sleepPlayer.logout();
 		new FileManager(sleepPlayer).saveData();
+		}
 	}
 	
 	@EventHandler
@@ -98,7 +102,9 @@ public class PlayerEvent implements Listener {
 	{
 		Player player = event.getPlayer();
 		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
+		if(sleepPlayer != null){
 		sleepPlayer.inBed();
+		}
 	}
 	
 	@EventHandler
@@ -106,7 +112,9 @@ public class PlayerEvent implements Listener {
 	{
 		Player player = event.getPlayer();
 		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
+		if(sleepPlayer != null){
 		sleepPlayer.outBed();
+		}
 		if(plugin.isActiveBedAtDay() && netminecraftclass != null)
 		{
 			netminecraftclass.outBed(player);

@@ -61,6 +61,7 @@ public class SleepingPlus extends JavaPlugin{
 	
 	private int timeNoSleep;
 	private long timeExitServer;
+	private String[] listWorld;
 	
 	private int timeInBed;
 	private int timeOnChair;
@@ -130,6 +131,10 @@ public class SleepingPlus extends JavaPlugin{
 		return permissions;
 	}
 	
+	public String[] getListWorlds(){
+		return listWorld;
+	}
+	
 	@Override
 	public void onEnable()
 	{
@@ -139,13 +144,20 @@ public class SleepingPlus extends JavaPlugin{
 		pdFile = getDescription();
 		vault = getServer().getPluginManager().getPlugin("Vault");
 		manData = new ManageData(this);
-		for(World world : Bukkit.getWorlds()){
-			File dossierWorld = new File("plugins/SleepingPlus/DataPlayer/"+world.getName()+"/");
-			dossierWorld.mkdirs();
-			manData.addWorld(world.getName());
-		}
 		this.saveDefaultConfig();
 		loadConfig();
+		for(World world : Bukkit.getWorlds()){
+			if(listWorld != null){
+				for(String worldName : listWorld){
+					if(world.getName().equals(worldName)){
+						addWorld(world);
+					}
+				}
+			}
+			else{
+				addWorld(world);
+			}
+		}
 		NMSCLASS netminecraftclass = loadMinecraftClass();
 		if(netminecraftclass == null){
 			logWarning("This version of craftbukkit is not compatible with SleepingPlus!");
@@ -193,6 +205,12 @@ public class SleepingPlus extends JavaPlugin{
 		
 		logInfo("Author : " + pdFile.getAuthors());
 		logInfo("Plugin enable");
+	}
+	
+	private void addWorld(World world){
+		File dossierWorld = new File("plugins/SleepingPlus/DataPlayer/"+world.getName()+"/");
+		dossierWorld.mkdirs();
+		manData.addWorld(world.getName());
 	}
 	
 	private NMSCLASS loadMinecraftClass(){
@@ -287,6 +305,10 @@ public class SleepingPlus extends JavaPlugin{
 		useXpBar = this.getConfig().getBoolean("useXpBar");
 		activateFatigue = this.getConfig().getBoolean("activateFatigueOnConnect");
 		activateBedAtDay = this.getConfig().getBoolean("activateBedAtDay");
+		String worlds = this.getConfig().getString("listworld");
+		if(!worlds.equals("null")){
+		listWorld = worlds.split(":");
+		}
 		manData.clearEffect();
 		loadEffect();
 	}
