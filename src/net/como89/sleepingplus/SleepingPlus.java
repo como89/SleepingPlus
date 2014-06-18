@@ -307,7 +307,7 @@ public class SleepingPlus extends JavaPlugin{
 		activateFatigue = this.getConfig().getBoolean("activateFatigueOnConnect");
 		activateBedAtDay = this.getConfig().getBoolean("activateBedAtDay");
 		String worlds = this.getConfig().getString("listworld");
-		if(!worlds.equals("null")){
+		if(worlds != null){
 		listWorld = worlds.split(":");
 		}
 		manData.clearEffect();
