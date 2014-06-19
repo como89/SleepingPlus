@@ -81,7 +81,7 @@ public class FileManager {
 	
 	public boolean checkFile()
 	{
-		File file = new File("plugins/SleepingPlus/DataPlayer/"+player.getName()+".dat");
+		File file = new File("plugins/SleepingPlus/DataPlayer/" + player.getWorld().getName() + "/" + player.getName()+".dat");
 		return file.exists();
 	}
 }

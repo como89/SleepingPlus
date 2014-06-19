@@ -31,7 +31,7 @@ public class ManageData {
 		for(String world : Data.getListePlayer().keySet()){
 			if(world.equals(player.getWorld().getName())){
 				for(SleepPlayer sleepPlayer : Data.getListePlayer().get(world)){
-					if(sleepPlayer.getPlayer().equals(player))
+					if(sleepPlayer.getPlayer().equals(player.getName()))
 					{
 						return true;
 					}
@@ -140,7 +140,7 @@ public class ManageData {
 	}
 	
 	private boolean checkIfWorldExist(String world){
-		for(String worldName : plugin.getListWorlds()){
+		for(String worldName : Data.getListePlayer().keySet()){
 			if(world.equals(worldName)){
 				return true;
 			}
