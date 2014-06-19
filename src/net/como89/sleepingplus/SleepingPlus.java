@@ -10,8 +10,6 @@ import net.como89.sleepingplus.data.MsgLang;
 import net.como89.sleepingplus.event.ChairEvent;
 import net.como89.sleepingplus.event.EntityEvent;
 import net.como89.sleepingplus.event.PlayerEvent;
-import net.como89.sleepingplus.nms.M_1_5;
-import net.como89.sleepingplus.nms.M_1_6;
 import net.como89.sleepingplus.nms.M_1_7_R1;
 import net.como89.sleepingplus.nms.M_1_7_R2;
 import net.como89.sleepingplus.nms.M_1_7_R3;
@@ -36,7 +34,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  * #French - Cette classe est la classe principale du plugin. Elle gère la config, enregistre l'event pour le joueur et celui de la commande /sp.
  * #English - This class is the main class of the plugin. It manages the config, records the event for the player and the command /sp.
  */
-@SuppressWarnings("deprecation")
 public class SleepingPlus extends JavaPlugin{
 
 	private PluginDescriptionFile pdFile;
@@ -217,12 +214,6 @@ public class SleepingPlus extends JavaPlugin{
 		String craftVersion = Bukkit.getVersion();
 		String[] craftVersionTab = craftVersion.split(":");
 		craftVersion = craftVersionTab[1];
-		if(craftVersion.contains("1.5.2")){
-			return new M_1_5();
-		}
-		if(craftVersion.contains("1.6.4")){
-			return new M_1_6();
-		}
 		if(craftVersion.contains("1.7.2")){
 			return new M_1_7_R1();
 		}
