@@ -1,4 +1,4 @@
-english:
+﻿english:
     ACTIVATE_PLUGIN : You activate the plugin for you.
     CONFIG_RELOAD : The config is now reload.
     DISABLED_PLUGIN : You have disabled the plugin for you.
@@ -10,9 +10,18 @@ english:
 french:
     ACTIVATE_PLUGIN : Vous avez activer le plugin pour vous.
     CONFIG_RELOAD : La config est maintenant reload.
-    DISABLED_PLUGIN : Vous avez d�sactiver le plugin pour vous.
-    LESS_TIRED : Vous �tes moins fatiguer maintenant.
+    DISABLED_PLUGIN : Vous avez desactiver le plugin pour vous.
+    LESS_TIRED : Vous etes moins fatiguer maintenant.
     NO_PERMISSION : Vous n'avez pas la permission pour cette commande.
-    NUMBER_FATIGUE_POINT_OTHER : Le nombre de point de fatigue de <player> est � <ptFatigue> Points.
-    NUMBER_FATIGUE_POINT_YOU : Votre nombre de point de fatigue est �  <ptFatigue> Points.
-    PLUGIN_DISABLE : Le plugin n'est pas activ� dans ce monde.
+    NUMBER_FATIGUE_POINT_OTHER : Le nombre de point de fatigue de <player> est a <ptFatigue> Points.
+    NUMBER_FATIGUE_POINT_YOU : Votre nombre de point de fatigue est a <ptFatigue> Points.
+    PLUGIN_DISABLE : Le plugin n'est pas active dans ce monde.
+russian:
+    ACTIVATE_PLUGIN : Вы активировал плагин для себя.
+    CONFIG_RELOAD : Конфигурация перезагружена.
+    DISABLED_PLUGIN : Вы отключили плагин для себя.
+    LESS_TIRED : Ты теперь менее уставший.
+    NO_PERMISSION : Вы не имеете разрешения для этой команды.
+    NUMBER_FATIGUE_POINT_OTHER : Количество очков усталости для <player> является <ptFatigue> очков.
+    NUMBER_FATIGUE_POINT_YOU : Ваше количество усталости <ptFatigue> очков.
+    PLUGIN_DISABLE : Плагин не доступен в этом мире.
