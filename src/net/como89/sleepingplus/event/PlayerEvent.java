@@ -104,6 +104,7 @@ public class PlayerEvent implements Listener {
 		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
 		if(sleepPlayer != null){
 		sleepPlayer.inBed();
+		sleepPlayer.desactiver();
 		}
 	}
 	
@@ -114,6 +115,7 @@ public class PlayerEvent implements Listener {
 		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
 		if(sleepPlayer != null){
 		sleepPlayer.outBed();
+		sleepPlayer.activer();
 		}
 		if(plugin.isActiveBedAtDay() && netminecraftclass != null)
 		{
@@ -126,7 +128,7 @@ public class PlayerEvent implements Listener {
 	{
 		Player player = event.getEntity();
 		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
-		manData.addFatigue(sleepPlayer, true);
+		manData.addFatigue(sleepPlayer, true,0);
 	}
 	
 	@EventHandler

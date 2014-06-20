@@ -64,6 +64,7 @@ public class SleepingPlus extends JavaPlugin{
 	private int timeOnChair;
 	private int nbFatigueRate;
 	private int nbRateWithDeath;
+	private int damageFatigue;
 	
 	public boolean isActiveFatigue()
 	{
@@ -105,9 +106,8 @@ public class SleepingPlus extends JavaPlugin{
 		return nbRateWithDeath;
 	}
 	
-	public int getTimeInBed()
-	{
-		return timeInBed;
+	public int getDamageFatigue(){
+		return damageFatigue;
 	}
 	
 	public int getTimeOnChair(){
@@ -190,8 +190,8 @@ public class SleepingPlus extends JavaPlugin{
 		
 		getCommand("spp").setExecutor(new Commands(this,manData));
 		
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskTimeNoSleep(manData), 20, 20 * getTimeNoSleep());
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskSleep(manData),20,20 * getTimeInBed());
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskTimeNoSleep(manData), 20, 20);
+		Bukkit.getScheduler().runTaskTimer(this, new TaskSleep(manData),20,20 * timeInBed);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TaskQuitPlayer(manData),20, 20 * getTimeExitServer());
 		
 		if(getServer().getPluginManager().getPlugin("Chairs") != null){
@@ -291,6 +291,7 @@ public class SleepingPlus extends JavaPlugin{
 		int minute = this.getConfig().getInt("timeExitServer");
 		timeExitServer = convertMinutesInSecond(minute);
 		nbFatigueRate = this.getConfig().getInt("nbFatigueRate");
+		damageFatigue = this.getConfig().getInt("damageFatigue");
 		timeInBed = this.getConfig().getInt("timeInBed");
 		timeOnChair = this.getConfig().getInt("timeOnChair");
 		nbRateWithDeath = this.getConfig().getInt("nbRateWithDeath");

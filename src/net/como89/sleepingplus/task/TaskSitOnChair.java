@@ -33,6 +33,7 @@ public class TaskSitOnChair extends BukkitRunnable{
 					}
 				}
 			}
+			running = false;
 		}
 	}
 

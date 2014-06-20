@@ -12,6 +12,8 @@ timeNoSleep: 20
 timeExitServer: 10
 # The number of fatigue that will be added or removed.
 nbFatigueRate: 2
+# The damage of fatigue when the player has all the potions effect on him. If -1, the option is disable.
+damageFatigue: -1
 # Number of seconds where you must stay in bed will remove the nbFatigueRate.
 timeInBed: 15
 # Number of seconds where the player must to stay on a chair will remove the nbFatigueRate.

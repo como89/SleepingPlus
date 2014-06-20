@@ -26,6 +26,10 @@ public class ManageData {
 		plugin = plugins;
 	}
 	
+	public SleepingPlus getPlugin(){
+		return plugin;
+	}
+	
 	public boolean isExistPlayer(Player player)
 	{
 		for(String world : Data.getListePlayer().keySet()){
@@ -105,8 +109,8 @@ public class ManageData {
 			if(disconnected){
 				sleepPlayer.removeFatigueRate(sleepPlayer.getFatigueRate());
 			}
-			else{
-			sleepPlayer.removeFatigueRate(1);
+			else {
+			sleepPlayer.removeFatigueRate(plugin.getNbFatigueRate());
 			}
 			if(sleepPlayer.getFatigueRate() == 0 && !disconnected){
 				removeEffect(getListEffect(sleepPlayer.getFatigueRate()),Bukkit.getPlayer(sleepPlayer.getPlayer()));
@@ -120,18 +124,21 @@ public class ManageData {
 		}
 	}
 	
-	public void addFatigue(SleepPlayer sleepPlayer,boolean dramatic){
+	public void addFatigue(SleepPlayer sleepPlayer,boolean dramatic,int nbEffect){
 		if(sleepPlayer != null){
 			if(dramatic){
 				sleepPlayer.addFatigueRate(plugin.getNbRatWithDeath());
 			}
 			else{
-			sleepPlayer.addFatigueRate(1);
+			sleepPlayer.addFatigueRate(plugin.getNbFatigueRate());
 			}
-			ArrayList<Effect> listEffect = getListEffect(sleepPlayer.getFatigueRate());
-			if(listEffect.size() > 0){
-				appliesEffect(listEffect, Bukkit.getPlayer(sleepPlayer.getPlayer()));
+			
+			int damageFatigue = plugin.getDamageFatigue();
+			if(damageFatigue != -1 && nbEffect == Data.getListeEffect().size()){
+				Player player = Bukkit.getPlayer(sleepPlayer.getPlayer());
+				player.damage(damageFatigue);
 			}
+			
 			if(plugin.isXpBar())
 			{
 				Bukkit.getPlayer(sleepPlayer.getPlayer()).setLevel(sleepPlayer.getFatigueRate());
@@ -148,7 +155,7 @@ public class ManageData {
 		return false;
 	}
 	
-	private void appliesEffect(ArrayList<Effect> listEffect,Player player)
+	public void appliesEffect(ArrayList<Effect> listEffect,Player player)
 	{
 		Collection <PotionEffect> listeEffetOnPlayer = player.getActivePotionEffects();
 		boolean PotionCorrect = true;

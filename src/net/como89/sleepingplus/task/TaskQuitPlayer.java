@@ -34,6 +34,7 @@ public class TaskQuitPlayer extends BukkitRunnable {
 					}
 				}
 			}
+			running = false;
 		}
 	}
 }

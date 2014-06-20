@@ -2,10 +2,12 @@ package net.como89.sleepingplus.task;
 
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.como89.sleepingplus.data.ManageData;
+import net.como89.sleepingplus.data.MsgLang;
 import net.como89.sleepingplus.data.SleepPlayer;
 
 /**
@@ -33,9 +35,11 @@ public class TaskSleep extends BukkitRunnable {
 					if(sleepPlayer.isInBed() && sleepPlayer.getFatigueRate() > 0)
 					{
 						manData.reduceFatigue(sleepPlayer,false);
+						player.sendMessage(ChatColor.DARK_AQUA + MsgLang.convertMsgPoint(MsgLang.getMsg(5),sleepPlayer.getFatigueRate()));
 					}
 				}
 			}
+			running = false;
 		}
 	}
 
