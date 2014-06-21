@@ -1,9 +1,11 @@
 package net.como89.sleepingplus.task;
 
 import net.como89.sleepingplus.data.ManageData;
+import net.como89.sleepingplus.data.MsgLang;
 import net.como89.sleepingplus.data.SleepPlayer;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -30,6 +32,7 @@ public class TaskSitOnChair extends BukkitRunnable{
 				if(sleepPlayer != null){
 					if(sleepPlayer.isSitOnChair() && sleepPlayer.getFatigueRate() > 0){
 						manData.reduceFatigue(sleepPlayer,false);
+						player.sendMessage(ChatColor.DARK_AQUA + MsgLang.convertMsgPoint(MsgLang.getMsg(5),sleepPlayer.getFatigueRate()));
 					}
 				}
 			}

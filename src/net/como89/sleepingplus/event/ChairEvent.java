@@ -31,6 +31,7 @@ public class ChairEvent implements Listener{
 		Player p = e.getPlayer();
 		SleepPlayer sleepPlayer = manData.getSleepPlayer(p);
 		sleepPlayer.sitOnChair();
+		sleepPlayer.desactiver();
 	}
 	
 	@EventHandler
@@ -38,5 +39,6 @@ public class ChairEvent implements Listener{
 		Player p = e.getPlayer();
 		SleepPlayer sleepPlayer = manData.getSleepPlayer(p);
 		sleepPlayer.unSit();
+		sleepPlayer.activer();
 	}
 }
