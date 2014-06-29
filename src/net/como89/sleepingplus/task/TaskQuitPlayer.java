@@ -27,7 +27,7 @@ public class TaskQuitPlayer extends BukkitRunnable {
 		{
 			running = true;
 			for(OfflinePlayer player : Bukkit.getOfflinePlayers()){
-				SleepPlayer sleepPlayer = manData.getSleepPlayer(player.getPlayer());
+				SleepPlayer sleepPlayer = manData.getSleepPlayer(player.getName());
 				if(sleepPlayer != null){
 					if(!sleepPlayer.isLogin() && sleepPlayer.getFatigueRate() > 0){
 						manData.reduceFatigue(sleepPlayer,true);

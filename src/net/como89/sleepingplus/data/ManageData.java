@@ -91,6 +91,17 @@ public class ManageData {
 		return null;
 	}
 	
+	public SleepPlayer getSleepPlayer(String playerName){
+		for(String world : Data.getListePlayer().keySet()){
+			for(SleepPlayer sleepPlayer : Data.getListePlayer().get(world)){
+				if(sleepPlayer.getPlayer().equals(playerName)){
+					return sleepPlayer;
+				}
+			}
+		}
+		return null;
+	}
+	
 	public ArrayList<Effect> getListEffect(int tauxFatigue)
 	{
 		ArrayList<Effect> listEffect = new ArrayList<Effect>();
