@@ -1,6 +1,7 @@
 package net.como89.sleepingplus;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
@@ -10,6 +11,7 @@ import net.como89.sleepingplus.data.MsgLang;
 import net.como89.sleepingplus.event.ChairEvent;
 import net.como89.sleepingplus.event.EntityEvent;
 import net.como89.sleepingplus.event.PlayerEvent;
+import net.como89.sleepingplus.metrics.Metrics;
 import net.como89.sleepingplus.nms.M_1_7_R1;
 import net.como89.sleepingplus.nms.M_1_7_R2;
 import net.como89.sleepingplus.nms.M_1_7_R3;
@@ -55,6 +57,7 @@ public class SleepingPlus extends JavaPlugin{
 	private boolean useXpBar;
 	private boolean activateFatigue;
 	private boolean activateBedAtDay;
+	private boolean activeMetrics;
 	
 	private int timeNoSleep;
 	private long timeExitServer;
@@ -200,6 +203,10 @@ public class SleepingPlus extends JavaPlugin{
 		logInfo("Link to chairs complete!");
 		}
 		
+		if(activeMetrics){
+			activateMetrics();
+		}
+		
 		logInfo("Author : " + pdFile.getAuthors());
 		logInfo("Plugin enable");
 	}
@@ -208,6 +215,17 @@ public class SleepingPlus extends JavaPlugin{
 		File dossierWorld = new File("plugins/SleepingPlus/DataPlayer/"+world.getName()+"/");
 		dossierWorld.mkdirs();
 		manData.addWorld(world.getName());
+	}
+	
+	private void activateMetrics(){
+		try {
+			Metrics metrics = new Metrics(this);
+			metrics.start();
+			logInfo("Metrics enable.");
+		} catch (IOException e) {
+			logWarning("Problem with Metrics");
+			e.printStackTrace();
+		}
 	}
 	
 	private NMSCLASS loadMinecraftClass(){
@@ -286,6 +304,7 @@ public class SleepingPlus extends JavaPlugin{
 		this.reloadConfig();
 		language = this.getConfig().getString("language");
 		permissions = this.getConfig().getBoolean("permissions");
+		activeMetrics = this.getConfig().getBoolean("Metrics");
 		listeEffet = this.getConfig().getString("potionsEffect");
 		timeNoSleep =  this.getConfig().getInt("timeNoSleep");
 		int minute = this.getConfig().getInt("timeExitServer");

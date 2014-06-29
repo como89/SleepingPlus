@@ -3,6 +3,8 @@
 language: English
 # Do you use the permissions of the plugin?
 permissions: false
+# Do you want to use Metrics?
+Metrics: true
 # Effects when the player becomes tired.
 # Identified by name, for how long, in seconds, the rate of fatigue so that the effect is activated.
 potionsEffect: SLOW,10,30,2/SLOW_DIGGING,10,40,2/BLINDNESS,10,60,3
