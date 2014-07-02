@@ -14,6 +14,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExpEvent;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
@@ -24,6 +25,7 @@ import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
@@ -40,6 +42,7 @@ import org.bukkit.inventory.ItemStack;
  * -PlayerBedLeaveEvent
  * -PlayerDeathEvent
  * -PlayerInteractEvent
+ * -PlayerTeleportEvent
  * -PrepareItemEnchantEvent
  * -BlockExpEvent
  * -InventoryClickEvent
@@ -109,21 +112,6 @@ public class PlayerEvent implements Listener {
 	}
 	
 	@EventHandler
-	public void onPlayerLeaveBed(PlayerBedLeaveEvent event)
-	{
-		Player player = event.getPlayer();
-		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
-		if(sleepPlayer != null){
-		sleepPlayer.outBed();
-		sleepPlayer.activer();
-		}
-		if(plugin.isActiveBedAtDay() && netminecraftclass != null)
-		{
-			netminecraftclass.outBed(player);
-		}
-	}
-	
-	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event)
 	{
 		Player player = event.getEntity();
@@ -137,7 +125,7 @@ public class PlayerEvent implements Listener {
 		Player p = event.getPlayer();
 		if(event.getClickedBlock() != null)
 		{
-				if(event.getClickedBlock().getType() == Material.BED_BLOCK)
+				if(event.getClickedBlock().getType() == Material.BED_BLOCK && event.getAction() == Action.RIGHT_CLICK_BLOCK)
 				{
 					if(plugin.isActiveBedAtDay() && netminecraftclass != null)
 					{
@@ -148,6 +136,22 @@ public class PlayerEvent implements Listener {
 					event.setCancelled(true);
 					}
 				}
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerTeleport(PlayerTeleportEvent event){
+		Player player = event.getPlayer();
+		SleepPlayer sleepPlayer = manData.getSleepPlayer(player);
+		if(sleepPlayer != null){
+			if(sleepPlayer.isInBed()){
+				if(plugin.isActiveBedAtDay() && netminecraftclass != null)
+				{
+					netminecraftclass.outBed(player);
+				}
+				sleepPlayer.outBed();
+				sleepPlayer.activer();
+			}
 		}
 	}
 	
